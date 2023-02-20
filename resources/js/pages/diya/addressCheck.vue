@@ -279,6 +279,7 @@ export default {
         this.PosatalMaster = result.data
         console.log(JSON.parse(JSON.stringify(this.PosatalMaster)))
       });
+    //postal master
 
     if (localStorage.userData) {
       this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
