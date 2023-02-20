@@ -272,13 +272,13 @@ export default {
         // console.log('here 12')
         // alert(this.categoryId)
       });
-    // await axios.post('http://192.168.58.42:3000/api/site/action', {
-    //   action: 'PosatalMaster',
-    // })
-    //   .then(result => {
-    //     this.PosatalMaster = result.data
-    //     console.log(JSON.parse(JSON.stringify(this.PosatalMaster)))
-    //   });
+    await axios.post('http://192.168.58.42:3000/api/site/action', {
+      action: 'PosatalMaster',
+    })
+      .then(result => {
+        this.PosatalMaster = result.data
+        console.log(JSON.parse(JSON.stringify(this.PosatalMaster)))
+      });
 
     if (localStorage.userData) {
       this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
