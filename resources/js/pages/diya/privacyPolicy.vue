@@ -1,6 +1,6 @@
 <script setup>
 import axios from '@axios'
-import AppSearchHeaderBg from '@images/pages/app-search-header-bg1.png'
+import AppSearchHeaderBg from '../../../../../full-version_test/resources/images/pages/app-search-header-bg1.png'
 
 const apiData = ref()
 
@@ -24,8 +24,6 @@ fetchHelpCenterData()
       <h5 class="text-h5 font-weight-semibold">
         Privacy Policy
       </h5>
-
-
       <!--      <p class="mb-0">-->
       <!--        Common troubleshooting topics: eCommerce, Blogging to payment-->
       <!--      </p>-->

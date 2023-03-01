@@ -255,7 +255,7 @@ export default {
   },
   async created() {
     this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'getUserAddress',
       userId: this.userData.id,
     })
@@ -268,7 +268,7 @@ export default {
 
     if (localStorage.userData) {
       this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
-      await axios.post('http://192.168.58.42:3000/api/site/action', {
+      await axios.post(this.site_url, {
         action: 'getCartItem',
         lang_id: localStorage.lang_id,
         userId: this.userData.id,
@@ -280,7 +280,7 @@ export default {
           // alert(this.categoryId)
         });
     }
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post('http://localhost:8000/api/site/action', {
       action: 'getStateList',
     })
       .then(result => {

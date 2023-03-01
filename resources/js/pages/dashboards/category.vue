@@ -159,7 +159,7 @@ export default {
   async created() {
     this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
     this.loading = 1;
-    axios.post('http://192.168.58.42:3000/api/site/action', {
+    axios.post('http://localhost:8000/api/site/action', {
       action: 'categoryList',
     })
       .then(result => {
@@ -169,7 +169,7 @@ export default {
         // alert(this.categoryId)
       });
 
-    axios.post('http://192.168.58.42:3000/api/site/action', {
+    axios.post('http://localhost:8000/api/site/action', {
       action: 'ProductsList',
       lang_id: localStorage.lang_id,
       userId: this.userData1.id,
@@ -191,7 +191,7 @@ export default {
       this.loading = 1;
       // alert(categoryId)
       this.categoryId = categoryId
-      axios.post('http://192.168.58.42:3000/api/site/action', {
+      axios.post('http://localhost:8000/api/site/action', {
         action: 'categoryFilter',
         lang_id: localStorage.lang_id,
         category: categoryId,

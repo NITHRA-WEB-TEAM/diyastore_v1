@@ -79,7 +79,7 @@ export default {
 console.log('test')
      const route = useRoute()
 console.log(this.$route)
-     axios.post('http://192.168.58.42:3000/api/site/action', {
+     axios.post(this.site_url, {
       action: 'getSingleData',
       lang_id: localStorage.lang_id,
       productId: this.$route.params.id
@@ -89,7 +89,7 @@ console.log(this.$route)
         this.categoryId = this.getSingleData.category
         // console.log(result.data)
       });
-    axios.post('http://192.168.58.42:3000/api/site/action', {action: 'relatedProduct', lang_id: localStorage.lang_id, category: this.categoryId})
+    axios.post(this.site_url, {action: 'relatedProduct', lang_id: localStorage.lang_id, category: this.categoryId})
       .then(result => {
         console.log(result.data)
         this.relatedProduct = result.data

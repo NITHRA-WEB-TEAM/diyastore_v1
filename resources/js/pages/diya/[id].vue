@@ -8,7 +8,8 @@ import ProductCard from '@/views/diya/diya/card.vue'
 </script>
 
 <template>
-  <VRow class="" v-if="dataAvailable">
+  <div>
+  <VRow  v-if="dataAvailable">
 
     <VCol
       cols="12"
@@ -246,6 +247,8 @@ import ProductCard from '@/views/diya/diya/card.vue'
     </VCol>
 
   </VRow>
+  </div>
+
 </template>
 
 <style lang="scss">
@@ -276,7 +279,7 @@ export default {
     // console.log(this.$route)
     var imageSrcs = ''
     this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'getSingleData',
       lang_id: localStorage.lang_id,
       productId: this.$route.params.id,
@@ -299,7 +302,7 @@ export default {
       }).catch(error => {
         this.dataAvailable = 0
       });
-    axios.post('http://192.168.58.42:3000/api/site/action', {
+    axios.post(this.site_url, {
       action: 'relatedProduct',
       lang_id: localStorage.lang_id,
       category: this.categoryId,

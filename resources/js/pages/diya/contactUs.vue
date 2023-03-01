@@ -1,6 +1,6 @@
 <script setup>
 import axios from '@axios'
-import AppSearchHeaderBg from '@images/pages/app-search-header-bg1.png'
+import AppSearchHeaderBg from '../../../../../full-version_test/resources/images/pages/app-search-header-bg1.png'
 
 const authProviders = [
   {
@@ -21,7 +21,7 @@ const authProviders = [
   {
     icon: 'fa-instagram',
     color: '#f33ebf',
-    link: 'https://www.instagram.com/sridiyastores/',
+    link: 'https://www.instagram.com/sridiyastores00/',
   },
   {
     icon: 'fa-telegram',
@@ -52,10 +52,6 @@ fetchHelpCenterData()
         Contact Us
       </h5>
 
-
-      <!--      <p class="mb-0">-->
-      <!--        Common troubleshooting topics: eCommerce, Blogging to payment-->
-      <!--      </p>-->
     </VCardText>
     <div class="py-12">
       <VCardText class="text-center py-6">
@@ -63,22 +59,9 @@ fetchHelpCenterData()
           For Further Queries Please Contact
         </h5>
 
-        <p style=""><span style="letter-spacing: 0.1px; color: black;">Write to Us at : <a
+        <p><span style="letter-spacing: 0.1px; color: black;">Write to Us at : <a
           href="mailto:nithra.solutions@gmail.com">nithra.solutions@gmail.com</a></span></p>
-        <p style="">
-          <span style="color: black;">1)<a
-            href="tel:9360299668" style="text-decoration:none;color: black;">&nbsp;&nbsp;Andhra &amp; Telangana : 93602 99668</a></span><br>
-
-          <span style="color: black;"> 2)
-            <a href="tel:9597215816" style="text-decoration:none;color:black;">&nbsp;&nbsp;Tamil Nadu :&nbsp;</a>95972 15816</span><br>
-          <span style="color: black;">
-    3) </span><span style="color: black;">
-          <a href="tel:8056601121"
-             style="text-decoration:none;color: black;">&nbsp;&nbsp;Karnataka : 80566 01121</a></span>
-          <br><span
-          style="color: black;">
-    4) </span>
-          <span style="color: black;"><a href="tel:7568224311" style="text-decoration:none;color: black;">&nbsp;&nbsp;Hindi: 75682 24311</a></span>
+        <p v-html="contactData.contact">
         </p>
         <h5 class="text-h5 text-center mb-6">
           Join Us
@@ -161,3 +144,17 @@ fetchHelpCenterData()
   margin-block-start: -16px;
 }
 </style>
+<script>
+export default{
+  data() {
+    return {
+      contactData:[],
+    }
+  },
+  async created() {
+    const ContactData = await this.callAxios(this.site_url, {'action':'ContactDetails'}, 'post');
+    this.contactData=ContactData.data[0];
+    // console.log(ContactData)
+  },
+}
+</script>

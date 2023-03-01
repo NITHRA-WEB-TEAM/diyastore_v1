@@ -1,9 +1,9 @@
 <script setup>
 import axios from '@axios'
-import AppSearchHeaderBg from '@images/pages/app-search-header-bg1.png'
+import AppSearchHeaderBg from '../../../../../full-version_test/resources/images/pages/app-search-header-bg1.png'
+import {onMounted} from "vue"
 
 const apiData = ref()
-
 // fetching data from the @fake-db
 const fetchHelpCenterData = () => {
   return axios.get('/pages/help-center/landing').then(res => {
@@ -53,3 +53,11 @@ fetchHelpCenterData()
   margin-block-start: -16px;
 }
 </style>
+
+
+<script>
+
+export default {
+
+}
+</script>

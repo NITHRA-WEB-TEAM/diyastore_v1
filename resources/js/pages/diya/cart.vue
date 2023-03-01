@@ -11,6 +11,7 @@ import CheckOut
 </script>
 
 <template>
+  <div>
   <VRow class="match-height">
     <div class="loading">
       <div class="effect-1 effects"></div>
@@ -64,6 +65,7 @@ import CheckOut
       </VCard>
 
     </VCol>
+
     <VCol v-for="(product,index) in ProductsList" :key="index"
           cols="12"
           md="8"
@@ -212,135 +214,135 @@ import CheckOut
 
 
   </VRow>
-  <VRow class="match-height">
-    <VCol
-      cols="12"
-      md="8"
-      sm="8"
-      lg="8"
-    >
-      <h2 class="align-center">Product Wish List(20)</h2>
-    </VCol>
+<!--  <VRow class="match-height">-->
+<!--    <VCol-->
+<!--      cols="12"-->
+<!--      md="8"-->
+<!--      sm="8"-->
+<!--      lg="8"-->
+<!--    >-->
+<!--      <h2 class="align-center">Product Wish List(20)</h2>-->
+<!--    </VCol>-->
 
-    <VCol v-for="(product,index) in favoriteProduct" :key="index"
-          cols="12"
-          md="8"
-    >
-      <VCard>
-        <!--/*    <img src="../../../../images/svg/gift.svg" style="width: -webkit-fill-available;" alt="">*/-->
-        <!-- SECTION Header -->
-        <VCardText class="d-flex flex-wrap justify-space-between flex-column flex-sm-row print-row">
-          <!-- 👉 Left Content -->
-          <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">
-            <img :src="product.images[0].src" width="150" height="150" alt="">
-          </RouterLink>
-          <div class="">
-            <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">
-              <div class="d-flex align-center mb-6">
-                <!-- 👉 Title -->
-                <h5 class="font-weight-bold">
-                  {{ product.titles.substring(0, 50) + "..." }}
-                </h5>
-              </div>
-              <p class="mb-0 font-weight-medium  ">
-                <span class="text-decoration-line-through mr-4"> M.R.P : ₹ {{ product.price }}</span>
-                <span class="mb-0 font-weight-medium text-success mr-4 ">
-              M.R.P : ₹ {{ Math.ceil(product.price - product.discount_amt) }}
-            </span>
-                <span class="mb-0 font-weight-medium text-error mr-4">
-              {{ product.discount }} %
-            </span>
-                <span class="mb-0 font-weight-medium text-warning ">
-              You Save : ₹ {{ Math.ceil(product.discount_amt) }}
-            </span>
-              </p>
-              <br>
-            </RouterLink>
-            <div class="d-flex align-center ml-0">
-              <VAvatar
-                color="#FF6801"
-                style="width: 160px;height: 45px;color: white"
-                rounded
-                class="me-2 v-btn--elevated"
-                @click="isSnackbarScrollReverseVisible = true;addToCart(product.id)"
-                type="button"
-              >
-                <VIcon
-                  size="30"
-                  icon="tabler-shopping-cart-plus"
-                />
-                Move to cart
-              </VAvatar>
-              <VAvatar
-                color="success"
-                style="width: 160px;height: 45px"
-                rounded
-                class="me-2 v-btn--elevated"
-                type="button"
-              >
-                <VIcon
-                  size="25"
-                  icon="tabler-credit-card"
-                />
-                <div style="flex-grow: 0.1"> Buy Now</div>
-              </VAvatar>
-              <!--        <span>Add to cart</span>-->
-            </div>
-          </div>
+<!--    <VCol v-for="(product,index) in favoriteProduct" :key="index"-->
+<!--          cols="12"-->
+<!--          md="8"-->
+<!--    >-->
+<!--      <VCard>-->
+<!--        &lt;!&ndash;/*    <img src="../../../../images/svg/gift.svg" style="width: -webkit-fill-available;" alt="">*/&ndash;&gt;-->
+<!--        &lt;!&ndash; SECTION Header &ndash;&gt;-->
+<!--        <VCardText class="d-flex flex-wrap justify-space-between flex-column flex-sm-row print-row">-->
+<!--          &lt;!&ndash; 👉 Left Content &ndash;&gt;-->
+<!--          <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">-->
+<!--            <img :src="product.images[0].src" width="150" height="150" alt="">-->
+<!--          </RouterLink>-->
+<!--          <div class="">-->
+<!--            <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">-->
+<!--              <div class="d-flex align-center mb-6">-->
+<!--                &lt;!&ndash; 👉 Title &ndash;&gt;-->
+<!--                <h5 class="font-weight-bold">-->
+<!--                  {{ product.titles.substring(0, 50) + "..." }}-->
+<!--                </h5>-->
+<!--              </div>-->
+<!--              <p class="mb-0 font-weight-medium  ">-->
+<!--                <span class="text-decoration-line-through mr-4"> M.R.P : ₹ {{ product.price }}</span>-->
+<!--                <span class="mb-0 font-weight-medium text-success mr-4 ">-->
+<!--              M.R.P : ₹ {{ Math.ceil(product.price - product.discount_amt) }}-->
+<!--            </span>-->
+<!--                <span class="mb-0 font-weight-medium text-error mr-4">-->
+<!--              {{ product.discount }} %-->
+<!--            </span>-->
+<!--                <span class="mb-0 font-weight-medium text-warning ">-->
+<!--              You Save : ₹ {{ Math.ceil(product.discount_amt) }}-->
+<!--            </span>-->
+<!--              </p>-->
+<!--              <br>-->
+<!--            </RouterLink>-->
+<!--            <div class="d-flex align-center ml-0">-->
+<!--              <VAvatar-->
+<!--                color="#FF6801"-->
+<!--                style="width: 160px;height: 45px;color: white"-->
+<!--                rounded-->
+<!--                class="me-2 v-btn&#45;&#45;elevated"-->
+<!--                @click.once="isSnackbarScrollReverseVisible = true;addToCart(product.id)"-->
+<!--                type="button"-->
+<!--              >-->
+<!--                <VIcon-->
+<!--                  size="30"-->
+<!--                  icon="tabler-shopping-cart-plus"-->
+<!--                />-->
+<!--                Move to cart-->
+<!--              </VAvatar>-->
+<!--              <VAvatar-->
+<!--                color="success"-->
+<!--                style="width: 160px;height: 45px"-->
+<!--                rounded-->
+<!--                class="me-2 v-btn&#45;&#45;elevated"-->
+<!--                type="button"-->
+<!--              >-->
+<!--                <VIcon-->
+<!--                  size="25"-->
+<!--                  icon="tabler-credit-card"-->
+<!--                />-->
+<!--                <div style="flex-grow: 0.1"> Buy Now</div>-->
+<!--              </VAvatar>-->
+<!--              &lt;!&ndash;        <span>Add to cart</span>&ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
 
-          <div class="mt-4 ">
-            <VCol
-              cols="2"
-              md="2"
-              sm="2"
-              lg="2"
-              style="margin: -20px 0px 0px 35px;"
-            >
-              <VBtn
-                icon
-                variant="text"
-                color="error"
-                size="small"
-                v-if="product.is_fav === 1"
-                @click="product.is_fav = 0; addToFavourite(product.id);"
-              >
-                <VIcon
-                  icon="tabler-heart-filled"
-                  size="24"
-                />
+<!--          <div class="mt-4 ">-->
+<!--            <VCol-->
+<!--              cols="2"-->
+<!--              md="2"-->
+<!--              sm="2"-->
+<!--              lg="2"-->
+<!--              style="margin: -20px 0px 0px 35px;"-->
+<!--            >-->
+<!--              <VBtn-->
+<!--                icon-->
+<!--                variant="text"-->
+<!--                color="error"-->
+<!--                size="small"-->
+<!--                v-if="product.is_fav === 1"-->
+<!--                @click="product.is_fav = 0; addToFavourite(product.id);"-->
+<!--              >-->
+<!--                <VIcon-->
+<!--                  icon="tabler-heart-filled"-->
+<!--                  size="24"-->
+<!--                />-->
 
-              </VBtn>
-              <VBtn
-                icon
-                variant="text"
-                color="error"
-                size="small"
-                @click="product.is_fav = 1; addToFavourite(product.id);"
-                v-else
-              >
-                <VIcon
-                  icon="tabler-heart"
-                  size="24"
-                />
+<!--              </VBtn>-->
+<!--              <VBtn-->
+<!--                icon-->
+<!--                variant="text"-->
+<!--                color="error"-->
+<!--                size="small"-->
+<!--                @click="product.is_fav = 1; addToFavourite(product.id);"-->
+<!--                v-else-->
+<!--              >-->
+<!--                <VIcon-->
+<!--                  icon="tabler-heart"-->
+<!--                  size="24"-->
+<!--                />-->
 
-              </VBtn>
-            </VCol>
-            <h6 v-if="product.stock > 10" class="font-weight-medium text-xl mb-6 text-success">
-              In Stock
-            </h6>
-            <h6 v-else class="font-weight-medium mb-6 text-error">
-              Only {{ product.stock }} left
-            </h6>
+<!--              </VBtn>-->
+<!--            </VCol>-->
+<!--            <h6 v-if="product.stock > 10" class="font-weight-medium text-xl mb-6 text-success">-->
+<!--              In Stock-->
+<!--            </h6>-->
+<!--            <h6 v-else class="font-weight-medium mb-6 text-error">-->
+<!--              Only {{ product.stock }} left-->
+<!--            </h6>-->
 
 
-          </div>
-        </VCardText>
-        <!-- !SECTION -->
-        <VDivider/>
-      </VCard>
-    </VCol>
+<!--          </div>-->
+<!--        </VCardText>-->
+<!--        &lt;!&ndash; !SECTION &ndash;&gt;-->
+<!--        <VDivider/>-->
+<!--      </VCard>-->
+<!--    </VCol>-->
 
-  </VRow>
+<!--  </VRow>-->
   <VSnackbar
     v-model="isSnackbarScrollReverseVisible"
     transition="scroll-y-reverse-transition"
@@ -361,6 +363,7 @@ import CheckOut
       </VBtn>
     </template>
   </VSnackbar>
+  </div>
 </template>
 
 <style lang="scss">
@@ -393,7 +396,7 @@ export default {
       this.goToLocation = 1
       this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
       // console.log(this.userData.id)
-      await axios.post('http://192.168.58.42:3000/api/site/action', {
+      await axios.post(this.site_url, {
         action: 'getCartItem',
         lang_id: localStorage.lang_id,
         userId: this.userData.id,
@@ -408,7 +411,7 @@ export default {
       if (localStorage.cartItem) {
         this.localCartList = JSON.parse(localStorage.getItem("cartItem") || '[]')
         // console.log(this.localCartList)
-        axios.post('http://192.168.58.42:3000/api/site/action', {
+        axios.post(this.site_url, {
           action: 'dataForLocal',
           proArray: JSON.stringify(this.localCartList),
           lang_id: localStorage.lang_id,
@@ -440,7 +443,7 @@ export default {
       }
     }
 
-    axios.post('http://192.168.58.42:3000/api/site/action', {
+    axios.post(this.site_url, {
       action: 'ProductsList',
       lang_id: localStorage.lang_id,
 
@@ -467,7 +470,7 @@ export default {
     deleteCartItem(cartItemId) {
       if (localStorage.userData) {
         alert(cartItemId)
-        axios.post('http://192.168.58.42:3000/api/site/action', {
+        axios.post(this.site_url, {
           action: 'deleteCartItem',
           cartid: cartItemId,
           userId: this.userData.id,

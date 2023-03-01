@@ -87,7 +87,7 @@ export default {
         // alert(this.limit)
         this.limit = this.limit + 20
         this.loading = 1
-        await axios.post('http://192.168.58.42:3000/api/site/action', {
+        await axios.post('http://localhost:8000/api/site/action', {
           action: 'ProductsList',
           lang_id: localStorage.lang_id,
           limit: this.limit
@@ -115,7 +115,7 @@ export default {
   async mounted() {
     this.loading = 1
     this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post('http://localhost:8000/api/site/action', {
       action: 'ProductsList',
       lang_id: localStorage.lang_id,
       limit: this.limit,
@@ -155,7 +155,7 @@ export default {
 //     this.loading = 1
 //     this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
 //
-//     await axios.post('http://192.168.58.42:3000/api/site/action', {
+//     await axios.post('http://localhost:8000/api/site/action', {
 //       action: 'ProductsList',
 //       lang_id: localStorage.lang_id,
 //       limit: this.limit,
@@ -194,7 +194,7 @@ export default {
 //         // this.limit = this.limit + 20
 //         // alert(this.limit)
 //         // this.loading = 1
-//         // axios.post('http://192.168.58.42:3000/api/site/action', {
+//         // axios.post('http://localhost:8000/api/site/action', {
 //         //   action: 'ProductsList',
 //         //   lang_id: localStorage.lang_id,
 //         //   limit: 20
