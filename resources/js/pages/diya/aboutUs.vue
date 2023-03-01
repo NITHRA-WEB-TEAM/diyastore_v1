@@ -1,6 +1,7 @@
 <script setup>
 import axios from '@axios'
-import AppSearchHeaderBg from '../../../../../full-version_test/resources/images/pages/app-search-header-bg1.png'
+import AppSearchHeaderBg from '@images/pages/app-search-header-bg1.png'
+
 import {onMounted} from "vue"
 
 const apiData = ref()
