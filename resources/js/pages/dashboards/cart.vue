@@ -383,7 +383,7 @@ export default {
     if (localStorage.userData) {
       this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
       // console.log(this.userData.id)
-      await axios.post('http://192.168.58.42:3000/api/site/action', {
+      await axios.post('http://localhost:8000/api/site/action', {
         action: 'getCartItem',
         lang_id: localStorage.lang_id,
         userId: this.userData.id,
@@ -398,7 +398,7 @@ export default {
       if (localStorage.cartItem) {
         this.localCartList = JSON.parse(localStorage.getItem("cartItem") || '[]')
         console.log(this.localCartList)
-        axios.post('http://192.168.58.42:3000/api/site/action', {
+        axios.post('http://localhost:8000/api/site/action', {
           action: 'dataForLocal',
           proArray: JSON.stringify(this.localCartList),
           lang_id: localStorage.lang_id,
@@ -412,7 +412,7 @@ export default {
       }
     }
 
-    axios.post('http://192.168.58.42:3000/api/site/action', {
+    axios.post('http://localhost:8000/api/site/action', {
       action: 'ProductsList',
       lang_id: localStorage.lang_id,
 

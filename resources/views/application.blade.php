@@ -25,6 +25,8 @@
   </div>
 
   <script>
+
+
     const loaderColor = localStorage.getItem('Vuexy-initial-loader-bg') || '#FFFFFF'
     const primaryColor = localStorage.getItem('Vuexy-initial-loader-color') || '#7367F0'
 

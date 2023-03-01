@@ -1,7 +1,7 @@
 <script setup>
 import ProceedToPay
   from '@/views/diya/diya/proceedToPay.vue'
-// import InvoiceAddAddressDrawer from '@/views/diya/diya/addAddressForm.vue'
+import InvoiceAddAddressDrawer from '@/views/diya/diya/addAddressForm.vue'
 import {
   requiredValidator, integerValidator,
   lengthValidator
@@ -32,13 +32,15 @@ const isAddAddressSidebarVisible = ref(false)
 </script>
 
 <template>
-  <VRow class="">
+  <VRow>
 
 
     <VCol cols="12" md="8">
       <h4 class="text-h6 font-weight-medium mb-5">
         Address Section
       </h4>
+
+<!--      {{PosatalMaster}}-->
       <VForm ref="placeOrderForm"
              @submit.prevent="() => { placeOrder() }">
         <VExpansionPanels v-model="panel">
@@ -83,7 +85,7 @@ const isAddAddressSidebarVisible = ref(false)
               <VDivider class="my-5"/>
               <VBtn
                 @click="isAddAddressSidebarVisible = true"
-                style="">+Add Address
+              >+Add Address
               </VBtn>
             </VExpansionPanelText>
           </VExpansionPanel>
@@ -99,42 +101,24 @@ const isAddAddressSidebarVisible = ref(false)
                 model-value="deliveryOption"
                 class="delivery-options"
                 :rules="[requiredValidator]"
-
               >
                 <div
+                  v-for="(postal, index) in PosatalMaster"
                   class="delivery-option d-flex rounded-t"
-                  :class="deliveryOption === 'post' ? 'active' : ''"
-                  @click="delivery_type('post',1)"
+                  :class="postalOption === index ? 'active' : ''"
+                  @click="postalOption = index"
                 >
                   <VRadio
                     inline
                     value="standard"
                     class="mt-n4"
+                    :value="postal.id"
                   />
                   <div class="w-100">
                     <div class="d-flex justify-space-between">
                       <h6 class="text-base font-weight-medium">
-                        INDIA POST
-
+                        {{postal.postel_name}}
                       </h6>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="delivery-option d-flex"
-                  :class="deliveryOption === 'express' ? 'active' : ''"
-                  @click="delivery_type('express',2)"
-                >
-                  <VRadio
-                    inline
-                    class="mt-n4"
-                    value="express"
-                  />
-                  <div class="w-100">
-                    <div class="d-flex justify-space-between">
-                      <h5 class="text-base font-weight-medium">
-                        Professional Courier
-                      </h5>
                     </div>
                   </div>
                 </div>
@@ -228,7 +212,7 @@ const isAddAddressSidebarVisible = ref(false)
 
     </VCol>
   </VRow>
-  <!--  <InvoiceAddAddressDrawer v-model:isDrawerOpen="isAddAddressSidebarVisible"/>-->
+    <InvoiceAddAddressDrawer v-model:isDrawerOpen="isAddAddressSidebarVisible"/>
 
 </template>
 
@@ -252,9 +236,10 @@ export default {
       categoryId: '',
       totalPrice: 0,
       totalDiscount: 0,
-      deliveryOption: 'post',
+      deliveryOption: 0,
       paymentType: 'online',
       addressOption: 0,
+      postalOption: 0,
       paymentTypeValue: 0,
       deliveryTypeValue: 1,
       // id: $route.params.id
@@ -262,7 +247,7 @@ export default {
   },
   async created() {
     this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'getUserAddress',
       userId: this.userData.id,
     })
@@ -272,7 +257,7 @@ export default {
         // console.log('here 12')
         // alert(this.categoryId)
       });
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'PosatalMaster',
     })
       .then(result => {
@@ -282,7 +267,7 @@ export default {
 
     if (localStorage.userData) {
       this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
-      await axios.post('http://192.168.58.42:3000/api/site/action', {
+      await axios.post(this.site_url, {
         action: 'getCartItem',
         lang_id: localStorage.lang_id,
         userId: this.userData.id,
@@ -294,7 +279,7 @@ export default {
           // alert(this.categoryId)
         });
     }
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'getStateList',
     })
       .then(result => {
@@ -316,14 +301,13 @@ export default {
       console.log(this.paymentType)
     },
     delivery_type(type, value) {
-      this.deliveryTypeValue = value;
-      this.deliveryOption = type;
-      console.log(this.deliveryOption)
+      // this.deliveryTypeValue = value;
+      // this.deliveryOption = type;
+      // console.log(this.deliveryOption)
     },
     placeOrder() {
       if (this.userAddress.length != 0) {
         this.$refs.placeOrderForm.validate().then(async success => {
-          // alert('placeOrderForm')
           if (success.valid) {
             console.log(this.addressOption + '--' + this.deliveryTypeValue + '--' + this.paymentTypeValue)
           } else {

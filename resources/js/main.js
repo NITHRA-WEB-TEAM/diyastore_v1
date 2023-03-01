@@ -14,24 +14,25 @@ import '@core-scss/template/index.scss'
 import '@styles/styles.scss'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
-
 loadFonts()
-
-
+// const Razorpay = require('razorpay');
 // Create vue app
 const app = createApp(App)
 
 
 // Use plugins
+
+app.mixin(commonJs)
 app.use(vuetify)
 app.use(createPinia())
 app.use(router)
 app.use(layoutsPlugin)
 app.use(i18n)
+
 app.use(abilitiesPlugin, ability, {
   useGlobalProperties: true,
 })
-app.mixin(commonJs)
+
 
 // Mount vue app
 app.mount('#app')

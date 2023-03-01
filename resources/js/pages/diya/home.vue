@@ -8,7 +8,7 @@ import bannerImage from '@images/banner/banner1.png'
 </script>
 
 <template>
-
+<div>
   <!--  <div class="alert-demo-v-model-wrapper text-center" style="margin-left: 1200px">-->
   <!--    <VAlert-->
   <!--      v-model="isAlertVisible"-->
@@ -89,6 +89,7 @@ import bannerImage from '@images/banner/banner1.png'
   </div>
   <div class="loading" v-else>
   </div>
+</div>
 </template>
 <script>
 import axios from "axios";
@@ -111,6 +112,13 @@ export default {
       userData1: [{"id": ''}],
     }
   },
+  created() {
+    // alert()
+    // $('#cartAlert').hide();
+  },
+
+
+
   methods: {
     async handleScroll(event) {
       // Any code to be executed when the window is scrolled
@@ -123,7 +131,7 @@ export default {
         // alert(this.limit)
         this.limit = this.limit + 20
         this.loading = 1
-        await axios.post('http://192.168.58.42:3000/api/site/action', {
+        await axios.post(this.site_url, {
           action: 'ProductsList',
           lang_id: localStorage.lang_id,
           limit: this.limit
@@ -167,7 +175,7 @@ export default {
   async mounted() {
     this.loading = 1
     this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'getSlider',
       lang_id: localStorage.lang_id,
     })
@@ -177,7 +185,7 @@ export default {
         this.loading = 0
         // console.log(JSON.parse(JSON.stringify(this.slider)))
       });
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'mostViewedList',
       lang_id: localStorage.lang_id,
       userId: this.userData1.id,
@@ -188,7 +196,7 @@ export default {
         this.loading = 0
         // console.log(JSON.parse(JSON.stringify(this.ProductsList)))
       });
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'ProductsList',
       lang_id: localStorage.lang_id,
       limit: this.limit,
@@ -249,7 +257,7 @@ export default {
 //     this.loading = 1
 //     this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
 //
-//     await axios.post('http://192.168.58.42:3000/api/site/action', {
+//     await axios.post('http://localhost:8000/api/site/action', {
 //       action: 'ProductsList',
 //       lang_id: localStorage.lang_id,
 //       limit: this.limit,
@@ -288,7 +296,7 @@ export default {
 //         // this.limit = this.limit + 20
 //         // alert(this.limit)
 //         // this.loading = 1
-//         // axios.post('http://192.168.58.42:3000/api/site/action', {
+//         // axios.post('http://localhost:8000/api/site/action', {
 //         //   action: 'ProductsList',
 //         //   lang_id: localStorage.lang_id,
 //         //   limit: 20

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RazorpayController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('{any?}', function() {
     return view('application');
 })->where('any', '.*');
+
+
+
+Route::group(['prefix' => '/payment'], function () {
+    Route::post('pay-check', [RazorpayController::class, 'Payment']);
+});

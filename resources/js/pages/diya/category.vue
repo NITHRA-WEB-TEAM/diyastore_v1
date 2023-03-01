@@ -9,7 +9,8 @@ const panel = ref(0)
 </script>
 
 <template>
-  <VRow class="">
+  <div>
+  <VRow>
     <VCol
       cols="12"
       md="3"
@@ -166,6 +167,7 @@ const panel = ref(0)
       </VBtn>
     </template>
   </VSnackbar>
+  </div>
 </template>
 
 <style>
@@ -210,7 +212,7 @@ export default {
   async created() {
     this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
     this.loading = 1;
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'categoryList',
     })
       .then(result => {
@@ -220,7 +222,7 @@ export default {
         // alert(this.categoryId)
       });
 
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'ProductsList',
       lang_id: localStorage.lang_id,
       userId: this.userData1.id,
@@ -255,7 +257,7 @@ export default {
       this.loading = 1;
       // alert(categoryId)
       this.categoryId = categoryId
-      axios.post('http://192.168.58.42:3000/api/site/action', {
+      axios.post(this.site_url, {
         action: 'categoryFilter',
         lang_id: localStorage.lang_id,
         category: categoryId,
@@ -283,7 +285,7 @@ export default {
         this.priceFilter = 0
       }
       // alert(this.categoryId)
-      axios.post('http://192.168.58.42:3000/api/site/action', {
+      axios.post(this.site_url, {
         action: 'categoryFilter',
         lang_id: localStorage.lang_id,
         category: this.categoryId,

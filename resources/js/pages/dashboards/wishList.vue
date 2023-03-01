@@ -49,7 +49,7 @@ export default {
   created() {
     if (localStorage.userData) {
       this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
-      axios.post('http://192.168.58.42:3000/api/site/action', {
+      axios.post(this.site_url, {
         action: 'getFavouriteItem',
         lang_id: localStorage.lang_id,
         userId: this.userData.id
@@ -64,7 +64,7 @@ export default {
       if (localStorage.favouriteList) {
         this.favouriteList = JSON.parse(localStorage.getItem("favouriteList") || '[]')
 
-        axios.post('http://192.168.58.42:3000/api/site/action', {
+        axios.post(this.site_url, {
           action: 'dataForLocal',
           proArray: JSON.stringify(this.favouriteList),
           lang_id: localStorage.lang_id,

@@ -1,6 +1,6 @@
 <script setup>
 import axios from '@axios'
-import AppSearchHeaderBg from '@images/pages/app-search-header-bg1.png'
+import AppSearchHeaderBg from '../../../../../full-version_test/resources/images/pages/app-search-header-bg1.png'
 
 const apiData = ref()
 
@@ -18,7 +18,6 @@ fetchHelpCenterData()
   <VCard
     flat
     class="text-center search-header rounded-0"
-
   >
     <VCardText :style="`background: url(${AppSearchHeaderBg});`">
       <h5 class="text-h5 font-weight-semibold">
