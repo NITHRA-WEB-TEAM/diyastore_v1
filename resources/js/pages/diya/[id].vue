@@ -1,9 +1,18 @@
 <script setup>
+import avatar1 from '@images/avatars/pay_on_deliver.png'
+import avatar2 from '@images/avatars/refund_policy.png'
+import avatar3 from '@images/avatars/speed_delivery.png'
+
+
 // import {useTheme} from 'vuetify'
 import ImageView
   from '@/views/diya/diya/imageView.vue'
 // import ProductDetail from '@/views/diya/diya/productDetail.vue'
 import ProductCard from '@/views/diya/diya/card.vue'
+const isDialogVisible = ref(false)
+const isDialogVisible1 = ref(false)
+const isDialogVisible2 = ref(false)
+
 
 </script>
 
@@ -49,7 +58,7 @@ import ProductCard from '@/views/diya/diya/card.vue'
         <!--        </div>-->
         <!--                <br>-->
         <VCard>
-          <img class="nozoom" type="button" :src="image.src" style="width: 33%;" alt=""
+          <img class="nozoom" type="button" :src="image.src"  alt=""
                v-for="(image,index) in getSingleData.images" @click="mainImage(image.src)">
         </VCard>
       </VCard>
@@ -117,7 +126,168 @@ import ProductCard from '@/views/diya/diya/card.vue'
             <p class="mb-0 font-weight-medium text-warning ">
               You Save : ₹ {{ Math.ceil(getSingleData.discount_amt) }}
             </p><br>
-            <div class="d-flex align-center ml-0">
+            <ul class="list-group">
+<!--              <VIcon-->
+<!--                icon="tabler-heart-filled"-->
+<!--                size="24"-->
+<!--              />-->
+<!--              <VBtn icon="tabler-heart" />-->
+
+
+                 <VIcon
+                   icon="tabler-align-left"
+                   size="22"/>
+                <span  class="list-group-item text-amber-accent-1 ml-2" >Availability : In Stock</span>
+              <br>
+              <VIcon
+                icon="tabler-align-left"
+                size="22"/>
+              <span  class="list-group-item ml-2" >Cash on Delivery Available (+ ₹50 Shipping Charges Extra)</span><br>
+              <VIcon
+                icon="tabler-align-left"
+                size="22"/>
+              <span class="list-group-item ml-2">Delivery : Mar 6 - 8 </span><br>
+              <VIcon
+                icon="tabler-align-left"
+                size="22"/>
+              <span class="list-group-item ml-2">Return and Refund Policy </span><br>
+              <VIcon
+                icon="tabler-align-left"
+                size="22"/>
+              <span class="list-group-item ml-2"  style="width: 7rem;overflow-wrap: break-word;">Payment Method : Cash on Delivery / Debit / Credit / ATM Card / Net Banking / Other UPI Apps </span><br>
+<!--    <span class="text-no-wrap ml-2"  "></span>-->
+
+            </ul>
+
+            <br>
+              <div class="demo-space-x  ml-10">
+
+                <VDialog
+                  v-model="isDialogVisible"
+                  width="500">
+                  <!-- Activator -->
+                  <template #activator="{ props }">
+ <span>
+                    <VAvatar ondragover="this">
+
+                      <VImg :src="avatar1" v-bind="props"/>
+                    </VAvatar>
+                   Pay on Delivery</span>
+
+                  </template>
+                  <!-- Dialog close btn -->
+                  <DialogCloseBtn @click="isDialogVisible = !isDialogVisible" />
+                  <!-- Dialog Content -->
+                  <VCard title="Pay on Delivery">
+                    <VCardText>
+                      Cash on Delivery Available for this product.
+                      <br>
+                      ₹50 Shipping Charges Extra
+                    </VCardText>
+
+                    <VCardText class="d-flex justify-end">
+                      <VBtn @click="isDialogVisible = false">
+                        I accept
+                      </VBtn>
+                    </VCardText>
+                  </VCard>
+                </VDialog>
+
+                <VDialog
+                  v-model="isDialogVisible1"
+                  width="500">
+                  <!-- Activator -->
+                  <template #activator="{ props }">
+                    <span>
+                    <VAvatar ondragover="this">
+                      <VImg :src="avatar2" v-bind="props"/>
+                    </VAvatar>Speed Delivery</span>
+                  </template>
+                  <!-- Dialog close btn -->
+                  <DialogCloseBtn @click="isDialogVisible1 = !isDialogVisible1" />
+                  <!-- Dialog Content -->
+                  <VCard title="SHIPPING & DELIVERY
+">
+                    <VCardText>
+                      SHIPPING & DELIVERY Information We Strive to Deliver products ordered through diyastore.in in excellent condition wrapped up in Secure pack. Time to Shipping Payment made via online: 1 to 2 Working Days VPP or Cash on Delivery 5 to 7 Working Days Note: Working days mentioned above are excluding Saturdays, Sundays and Holidays.
+
+                    </VCardText>
+
+                    <VCardText class="d-flex justify-end">
+                      <VBtn @click="isDialogVisible1 = false">
+                        I accept
+                      </VBtn>
+                    </VCardText>
+                  </VCard>
+                </VDialog>
+
+                <VDialog
+                  v-model="isDialogVisible2"
+                  width="500">
+                  <!-- Activator -->
+                  <template #activator="{ props }">
+                    <span>
+                    <VAvatar ondragover="this">
+                      <VImg :src="avatar3" v-bind="props"/>
+
+                    </VAvatar>
+                    Return and Refund Policy
+
+</span>
+
+
+
+                  </template>
+                  <!-- Dialog close btn -->
+                  <DialogCloseBtn @click="isDialogVisible2 = !isDialogVisible2" />
+                  <!-- Dialog Content -->
+                  <VCard title="Return and Refund Policy">
+                    <VCardText>
+                      1. If the product is reached you in bad condition please inform us immediately over phone and send the picture to our whatsapp number (which is sent via SMS with your order id) and send the product to us within three days. Either we will send a new product or refund the amount paid for the particular product with the return courier/postal charges. <br>
+                      2. Any of the order placed with diyastore.in will be subject to cancelation before shipping. Any cancelation request should reach us before the shipping of the products. If the order was cancelled before shipment the refund will be 100%. Any refund request will get processed with in a day of accepting the cancelation policy. We will usually refund any money received from you using the same method originally used by you to pay for your purchase. We will process the refund due to you as soon as possible and, in any event, within 10 days of the day we received your notice of cancellation.<br>
+                      3. If we are unable to deliver because of wrong address, receiver unavailability then the responsibility is on the receiver side
+                    </VCardText>
+
+                    <VCardText class="d-flex justify-end">
+                      <VBtn @click="isDialogVisible2 = false">
+                        I accept
+                      </VBtn>
+                    </VCardText>
+                  </VCard>
+                </VDialog>
+
+              </div>
+            <br>
+            <div class="container">
+              <div class="row mb-8 justify-content-center ">
+                <div class="col-md-6 col-12">
+                  <br>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="d-flex justify-content-between">
+                        <div style="overflow-wrap: break-word;" >
+                        <p class="text-wrap" >Quantity:</p><br>
+                        </div>
+                        <br>
+                        <div class="input-group w-auto justify-content-end align-items-center" style="padding-left: 26px;">
+                          <input  type="button" @click="number > 1 ? decrement():''" value="-" class="button-minus border rounded-circle  icon-shape icon-sm mx-1 " data-field="quantity">
+                          <input disabled type="text"  :value="number" name="quantity"  class="quantity-field border-0 text-center w-25">
+                          <input  type="button" @click="number <10 ? increment():''" value="+" class="button-plus border rounded-circle icon-shape icon-sm " data-field="quantity">
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                     <p>Unit Price : {{ Math.ceil(getSingleData.price - getSingleData.discount_amt) }} X {{number}}</p>
+                        <p>Total Amount : {{ Math.ceil(getSingleData.price - getSingleData.discount_amt) * Math.ceil(number) }}</p>
+                          <span>For Cash on Delivery : ₹ 70 /- Extra</span> &nbsp;&nbsp;
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex align-center" min-height="220">
               <VAvatar
                 color="#FF6801"
                 style="width: 160px;height: 45px;color: white"
@@ -137,7 +307,7 @@ import ProductCard from '@/views/diya/diya/card.vue'
                 style="width: 160px;height: 45px"
                 rounded
                 role="button"
-                class="me-2 v-btn--elevated"
+                class="me-1 v-btn--elevated"
               >
                 <VIcon
                   size="30"
@@ -175,6 +345,7 @@ import ProductCard from '@/views/diya/diya/card.vue'
           </div>
         </VCardText>
         <!-- !SECTION -->
+
         <VDivider/>
         <VCardText class="d-flex justify-space-between flex-wrap flex-column flex-sm-row print-row">
           <div class="ma-sm-8">
@@ -255,13 +426,24 @@ import ProductCard from '@/views/diya/diya/card.vue'
 </style>
 <script>
 import axios from "axios";
+
 const isSnackbarScrollReverseVisible = ref(false)
 
+import { createVuetify } from 'vuetify'
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
 // const route = useRoute()
 export default {
   setup() {
     // alert('check')
   },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: {
+      mdi,
+    }
+  },
+
   inheritAttrs: false,
   data() {
     return {
@@ -271,6 +453,7 @@ export default {
       dataAvailable: 1,
       imageSrc: '',
       categoryId: '',
+      number:1,
       userData1: [{"id": ''}],
 // id: $route.params.id
     }
@@ -322,7 +505,13 @@ export default {
     mainImage(url) {
       // alert(url)
       this.imageSrc = url
-    }
+    },
+    increment() {
+      this.number++;
+    },
+    decrement() {
+      this.number--;
+    },
   },
   watch: {
     async $route(to, from) {
@@ -351,5 +540,31 @@ export default {
   -ms-transform: scale(1.5);
   -webkit-transform: scale(1.5);
   transform: scale(1.5);
+}
+icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.icon-sm {
+  width: 2rem;
+  height: 2rem;
+
+}
+@media screen and (max-width: 992px) {
+  .nozoom {
+    width: 160px;
+    color: red;
+  }
+}
+
+/* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
+@media screen and (min-width: 600px) {
+  .nozoom {
+    width: 230px;
+  }
 }
 </style>
