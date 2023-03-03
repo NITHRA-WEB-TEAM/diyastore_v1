@@ -557,9 +557,9 @@ icon-shape {
 @media screen and (max-width: 992px) {
   .nozoom {
     width: 160px;
-    color: red;
   }
 }
+
 
 /* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
 @media screen and (min-width: 600px) {
