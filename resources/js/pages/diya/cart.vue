@@ -13,10 +13,21 @@ import CheckOut
 <template>
   <div>
   <VRow class="match-height">
-    <div class="loading">
+
+
+<!--     <div class="loading"  >-->
+<!--      <div class="effect-1 effects"></div>-->
+<!--      <div class="effect-2 effects"></div>-->
+<!--      <div class="effect-3 effects"></div>-->
+<!--    </div>-->
+
+    <div class="loading" v-if="loading===1">
       <div class="effect-1 effects"></div>
       <div class="effect-2 effects"></div>
       <div class="effect-3 effects"></div>
+    </div>
+    <div class="loading" v-else>
+
     </div>
     <VCol
       cols="12"
@@ -30,13 +41,13 @@ import CheckOut
           <span class="truncate-16">PRICE DETAILS</span>
           <VDivider/>
           <br>
-          <p><span class="mb-4 mr-2">Price({{ ProductsList.length }} Items)</span><span class="ml-16">₹
+          <p><span class="mb-4 mr-2">Price({{ ProductsList.length }} Items)</span><span class="ml-16 float-right">₹
           {{ getTotal() }}
           </span></p>
-          <p><span class="mb-4 mr-16">Discount</span><span class="ml-16">₹ {{ getDiscount() }}</span></p>
+          <p><span class="mb-4 mr-16">Discount</span><span class=" float-right ml-16">₹ {{ getDiscount() }}</span></p>
           <VDivider/>
           <p class="mt-4"><span class=" mr-12 font-weight-bold text-black">Total Amount</span><span
-            class="ml-8 font-weight-bold text-black">₹ {{ totalPrice - totalDiscount }}</span></p>
+            class="ml-8 font-weight-bold text-black float-right">₹ {{ totalPrice - totalDiscount }}</span></p>
           <VDivider/>
           <br>
 
@@ -382,6 +393,7 @@ export default {
   data() {
     return {
       ProductsList: [],
+      loading: 1,
       favoriteProduct: [],
       userData: [],
       categoryId: '',
@@ -402,13 +414,16 @@ export default {
         userId: this.userData.id,
       })
         .then(result => {
+        this.loading=0;
           this.ProductsList = result.data
+
           // console.log(JSON.parse(JSON.stringify(this.ProductsList)))
           // console.log(this.ProductsList)
           // alert(this.categoryId)
         });
     } else {
       if (localStorage.cartItem) {
+
         this.localCartList = JSON.parse(localStorage.getItem("cartItem") || '[]')
         // console.log(this.localCartList)
         axios.post(this.site_url, {
@@ -417,7 +432,8 @@ export default {
           lang_id: localStorage.lang_id,
         })
           .then(result => {
-            this.ProductsList = result.data
+            this.loading=0;
+            this.ProductsList = result.data;
             // console.log(JSON.parse(JSON.stringify(this.ProductsList)))
             this.ProductsList.forEach((value, index) => {
               let proQty = this.localCartList.filter(x => x.productId == value.id).map(x => x.qty);

@@ -48,6 +48,8 @@ export default {
     }
   },
   async created() {
+    alert('sss')
+    console.log(this.ProductsList)
   },
   methods: {
     getTotal() {

@@ -127,23 +127,26 @@ const chartOptions = {
     <!--    </RouterLink>-->
     <VCardText class="pt-0">
       <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">
-        <img :src="product.images[0].src" style="width: -webkit-fill-available;max-height: 275px;min-height: 275px;">
-        <div class="d-flex align-center justify-space-between mt-3">
-          <h6 class="text-h6 text-center font-weight-semibold">
-            ₹{{ discountedPrice(product) }}
+        <img :src="product.images[0].src" style="width: -webkit-fill-available;max-height: 200px;min-height: 230px;">
+        <div class="d-flex align-center pl-7  mt-3">
+          <h6 class="text-h6 text-center pl-2 font-weight-semibold">
+               ₹{{ discountedPrice(product) }}
           </h6>
-          <span class="text-center font-weight-semibold text-error" style="text-decoration: line-through">
-          ₹ {{ product.price }}
+          <span class="text-center font-weight-semibold text-error pl-2" style="text-decoration: line-through">
+          ₹{{ product.price }}
         </span>
-          <span class="text-center font-weight-semibold text-success">
-          Save ₹ {{ Math.ceil(product.discount_amt) }}
+          <span class="text-center font-weight-semibold text-success pl-2">
+           ₹{{ Math.ceil(product.discount_amt) }}
         </span>
-          <span class="text-sm text-primary">
-          ({{ discountedPercentage(product.discount) }}%)
-        </span>
+
         </div>
+
+            <p class="text-sm text-center text-primary">
+          ({{ discountedPercentage(product.discount) }}% off)
+        </p>
+
       </RouterLink>
-      <div class="d-flex align-center mt-2">
+      <div class="d-flex  justify-space-around  mt-2">
         <!--                :size="100"-->
         <!--        variant="tonal"-->
         <VAvatar
@@ -152,7 +155,7 @@ const chartOptions = {
           rounded
           class="me-2"
           role="button"
-          @click="isSnackbarScrollReverseVisible = true;addToCart(product.id)"
+          @click.once="product.is_cart == 1 ? GoToCart(product.id) :(addToCart(product.id),isSnackbarScrollReverseVisible=true)"
         >
           <VIcon
             size="30"
@@ -162,13 +165,13 @@ const chartOptions = {
         </VAvatar>
         <VAvatar
           color="success"
-          style="width: 140px;height: 35px"
+          style="width: 140px;height: 35px;color: white"
           rounded
           class="me-2"
           role="button"
         >
           <VIcon
-            size="25"
+            size="30"
             icon="tabler-credit-card"
           />
           Buy Now
@@ -210,6 +213,10 @@ export default {
       // id: $route.params.id
     }
   },
+  created(){
+    // alert('sss')
+
+  },
   methods: {
     discountedPrice(product) {
       const price = product.price - (product.price * product.discount / 100)
@@ -217,7 +224,11 @@ export default {
     },
     discountedPercentage(productDiscount) {
       return productDiscount.toFixed(2)
-    }
+    },
+    GoToCart(productId){
+      this.$router.push({ path: `/diya/cart`});
+    },
+
   }
 }
 </script>
