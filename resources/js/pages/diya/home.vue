@@ -54,7 +54,7 @@ import bannerImage from '@images/banner/banner1.png'
   <br>
   <VRow>
     <VCol v-for="(product,index) in mostViewedList" :key="index"
-          cols="12"
+
           md="4"
           sm="6"
           lg="3"
@@ -70,10 +70,7 @@ import bannerImage from '@images/banner/banner1.png'
   <h2>Newly Added Products</h2><br>
   <VRow>
     <VCol v-for="(product,index) in ProductsList" :key="index"
-          cols="12"
-          md="4"
-          sm="6"
-          lg="3"
+          sm="5"
     >
       <ProductCard
         :product="product"
@@ -96,6 +93,7 @@ import axios from "axios";
 import debounce from 'lodash/debounce';
 
 export default {
+
   data() {
     return {
       ProductsList: [],
@@ -112,8 +110,11 @@ export default {
       userData1: [{"id": ''}],
     }
   },
+  mounted() {
+    alert(this.cartCount);
+  },
   created() {
-    // alert()
+      // console.log(this.$options);
     // $('#cartAlert').hide();
   },
 

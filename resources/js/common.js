@@ -28,40 +28,28 @@ export default {
             //add to cart server
 
             if (localStorage.userData) {
-                // console.log(localStorage.userData);
-                // return '2';
                 // this.cartItem = JSON.stringify(JSON.parse(localStorage.getItem("cartItem") || '[]'))
                 this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
-                let indexCart = 2;
-                // let indexCart = this.ProductsList.findIndex(item => item.id === productId);
-                // alert(indexCart);
-                console.log(JSON.stringify(this.cartItem))
-                return 3;
-                if(indexCart===-1){
-                    const CartItem = [];
-                    CartItem.push({
-                        productId: productId,
-                        qty: 1
-                    })
-                    // alert(this.cartItem.length)
-                    console.log(JSON.stringify(CartItem));
-                    // return 3;
-                    axios.post(this.site_url, {
-                        action: 'addToCart',
-                        userId: this.userData.id,
-                        proArray: (JSON.stringify(CartItem)),
-                        mobile: this.userData.mobileno,
-                        fromApp: 'diyaStoreSite',
-                    })
-                        .then(result => {
-                            console.log(result.data)
-                        });
-                    this.cartItem = []
-                }else{
-                    this.isSnackbarScrollReverseVisible=false;
-                    // alert('dddd')
-                    // this.$router.push(`/diya/${productId}`);
-                }
+                this.cartItem.push({
+                    productId: productId,
+                    qty: 1
+                });
+                // console.log(JSON.stringify(this.cartItem))
+                // axios.post(this.site_url, {
+                //     action: 'addToCart',
+                //     userId: this.userData.id,
+                //     proArray: (JSON.stringify(this.cartItem)),
+                //     mobile: this.userData.mobileno,
+                //     fromApp: 'diyaStoreSite',
+                // })
+                //     .then(result => {
+                //         // console.log(typeof result.data)
+                //         console.log(result.data)
+                //     });
+                alert(this.cartCount)
+
+                this.cartItem = []
+
             } else {
                 if (localStorage.cartItem) {
                     this.cartItem = JSON.parse(localStorage.getItem("cartItem") || '[]')
@@ -89,7 +77,6 @@ export default {
                 }
             }
             // console.log(this.$router)
-            this.$router.push({path: '/diya/cart'});
         },
         callAxios(url, data, requestMethod) {
 
