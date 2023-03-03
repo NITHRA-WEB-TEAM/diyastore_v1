@@ -59,7 +59,7 @@ export default {
     if (localStorage.userData) {
       this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
       // alert(this.userData1.id)
-      axios.post('http://192.168.58.42:3000/api/site/action', {
+      axios.post(this.site_url, {
         action: 'getCartCount',
         userId: this.userData1.id,
       })

@@ -104,7 +104,7 @@ export default {
     localStorage.lname ? this.lname = localStorage.lname.replaceAll('"', '') : 'English'
     localStorage.limage ? this.limage = localStorage.limage.replaceAll('"', '') : 'https://d3c16wgne86swu.cloudfront.net/images/language%20icon/fr.png'
 
-    axios.post('http://192.168.58.42:3000/api/site/action', {action: 'LanguageList'})
+    axios.post(this.site_url, {action: 'LanguageList'})
       .then(result => {
         this.languages = result.data
         // console.log(result.data)
