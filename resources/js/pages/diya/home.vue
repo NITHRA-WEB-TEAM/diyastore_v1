@@ -99,6 +99,7 @@ export default {
   data() {
     return {
       ProductsList: [],
+      ProductId:[],
       mostViewedList: [],
       tempProductsList: [],
       slider: [
@@ -137,7 +138,9 @@ export default {
         await axios.post(this.site_url, {
           action: 'ProductsList',
           lang_id: localStorage.lang_id,
-          limit: this.limit
+          limit: this.limit,
+          ProId:this.ProductId,
+          // proId:this.
         })
           .then(result => {
             // console.log(result.data)
@@ -151,8 +154,10 @@ export default {
               list.push(value)
             });
             this.ProductsList = list;
+            this.ProductId = this.ProductsList.map(x => x.id);
             // this.tempProductsList = []
-            console.log(this.ProductsList)
+            console.log(JSON.parse(JSON.stringify(this.ProductsList)))
+            // console.log(this.ProductsList)
           });
         if (!localStorage.userData) {
           if (localStorage.favouriteList) {
@@ -204,11 +209,15 @@ export default {
       lang_id: localStorage.lang_id,
       limit: this.limit,
       userId: this.userData1.id,
+      ProId:this.ProductId,
     })
       .then(result => {
-        // console.log(result.data)
+        // (result.data)
         this.ProductsList = result.data
+        // this.ProductId = result.data.map(x => x.id);
+        this.ProductId = result.data.map(x => x.id);
         this.loading = 0
+        // console.log(JSON.stringify(this.ProductId));
         // console.log(JSON.parse(JSON.stringify(this.ProductsList)))
       });
     if (!localStorage.userData) {
