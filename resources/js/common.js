@@ -46,7 +46,6 @@ export default {
                 //         // console.log(typeof result.data)
                 //         console.log(result.data)
                 //     });
-                alert(this.cartCount)
 
                 this.cartItem = []
 
@@ -94,11 +93,14 @@ export default {
             return response1;
         },
         addToFavourite(productId) {
+
             if (localStorage.userData) {
                 this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
                 this.favouriteList.push({
                     productId: productId
                 });
+                // console.log(JSON.stringify(this.ProductsList));
+                // return 1;
                 // this.favouriteList = JSON.stringify(JSON.parse(localStorage.getItem("favouriteList") || '[]'))
                 axios.post(this.site_url, {
                     action: 'addToFavourite',
@@ -108,11 +110,12 @@ export default {
                     fromApp: 'diyaStoreSite',
                 })
                     .then(result => {
-                        // console.log(typeof result.data)
+
                         // console.log(result.data)
                         // console.log('here 12')
                         // alert(this.categoryId)
                     });
+
                 this.favouriteList = [];
             } else {
                 if (localStorage.favouriteList) {

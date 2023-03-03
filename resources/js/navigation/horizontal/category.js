@@ -29,7 +29,7 @@ export default [
 //         }
 //     },
 //     created() {
-//         axios.post('http://192.168.58.42:3000/api/site/action', {action: 'categoryList', lang_id: localStorage.lang_id})
+//         axios.post(this.site_url, {action: 'categoryList', lang_id: localStorage.lang_id})
 //             .then(result => {
 //                 // console.log(result.data)
 //                 this.categoryList = result.data
