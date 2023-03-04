@@ -62,17 +62,17 @@ const {
 <!--      </VAlert>-->
 <!--    </div>-->
 
-    <main class="layout-page-content">
+    <main class="layout-page-content" style="max-inline-size: none;padding-inline: 0;padding: 0px;">
       <template v-if="$slots['content-loading']">
         <template v-if="shallShowPageLoading">
-          <slot name="content-loading" />
+          <slot name="content-loading"/>
         </template>
         <template v-else>
-          <slot />
+          <slot/>
         </template>
       </template>
       <template v-else>
-        <slot />
+        <slot/>
       </template>
     </main>
 
