@@ -7,35 +7,28 @@ const ability = useAppAbility()
 const userData = JSON.parse(localStorage.getItem('userData') || 'null')
 // console.log(userData)
 const logout = () => {
-
   // Remove "userData" from localStorage
   localStorage.removeItem('userData')
   localStorage.removeItem('cartItem')
   localStorage.removeItem('favouriteList')
-
   // Remove "accessToken" from localStorage
   localStorage.removeItem('accessToken')
   router.push('/login').then(() => {
-
     // Remove "userAbilities" from localStorage
     localStorage.removeItem('userAbilities')
-
     // Reset ability to initial ability
+    console.log(initialAbility);
     ability.update(initialAbility)
   })
 }
 const login = () => {
-
   // Remove "userData" from localStorage
   localStorage.removeItem('userData')
-
   // Remove "accessToken" from localStorage
   localStorage.removeItem('accessToken')
   router.push('/login').then(() => {
-
     // Remove "userAbilities" from localStorage
     localStorage.removeItem('userAbilities')
-
     // Reset ability to initial ability
     ability.update(initialAbility)
   })
@@ -133,11 +126,12 @@ const login = () => {
   </VBadge>
   <VAvatar v-else
     color="success"
-    style="width: 85px;height: 32px"
+    style="width: 75px;height: 32px"
     rounded
     class="me-2"
     role="button"
-    @click="login"  >
+    @click="login">
+    {{$router.currentRoute.name}}
     <VIcon
       size="17"
       icon="tabler-user"

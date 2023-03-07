@@ -32,7 +32,7 @@ import bannerImage from '@images/banner/banner1.png'
             width="600"
             @click="goToSliderView(item.link)"
           >
-            <div class="">
+            <div>
               <VImg
                 :src="item.image_url"
                 class="mb-10 selectedClass"
@@ -46,25 +46,30 @@ import bannerImage from '@images/banner/banner1.png'
     <VRow style="margin: 0px!important;">
       <h2 style="padding-left:12px;">Most Viewed Products</h2>
     </VRow>
-    <VRow style="margin: 0px!important;">
 
+    <VRow style="margin: 0px!important;">
       <br>
       <VCol
         v-for="(product,index) in mostViewedList"
         :key="index"
-
         lg="3"
-        md="4"
+        md="3"
         sm="6"
       >
+        <div class="container">
         <ProductCard
           :index="index"
           :product="product"
         />
+        </div>
       </VCol>
     </VRow>
     <br>
-    <h2>Newly Added Products</h2><br>
+
+    <VRow style="margin: 0px!important;">
+      <h2 style="padding-left:12px;">Newly Added Products</h2>
+    </VRow>
+    <br>
     <VRow>
       <VCol
         v-for="(product,index) in ProductsList"
@@ -104,6 +109,7 @@ export default {
     return {
       ProductsList: [],
       ProductId: [],
+      model:'',
       mostViewedList: [],
       tempProductsList: [],
       slider: [

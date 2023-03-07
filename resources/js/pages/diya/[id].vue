@@ -238,7 +238,7 @@ const isDialogVisible2 = ref(false)
 
 </span>
 
-
+{{list}}
                   </template>
                   <!-- Dialog close btn -->
                   <DialogCloseBtn @click="isDialogVisible2 = !isDialogVisible2"/>
@@ -472,6 +472,7 @@ export default {
       dataAvailable: 1,
       imageSrc: '',
       categoryId: '',
+      list:[],
       number: 1,
       userData1: [{"id": ''}],
 // id: $route.params.id
@@ -517,7 +518,6 @@ export default {
         // this.relatedProduct = (JSON.parse(JSON.stringify(this.relatedProduct1)))
         // console.log(JSON.parse(JSON.stringify(this.relatedProduct)))
       });
-    // this.getDetails()
 
   },
   methods: {
@@ -527,9 +527,15 @@ export default {
     },
     increment() {
       this.number++;
+      this.ShipingAmntCalc(this.$route.params.id,this.number);
     },
     decrement() {
       this.number--;
+      this.ShipingAmntCalc(this.$route.params.id,this.number);
+    },
+  async ShipingAmntCalc(ProId,Qty){
+      const DataShipamnt = await this.callAxios(this.site_url, {'action':'ShipingAmnt',ProId:ProId,Qty:Qty}, 'post');
+    this.list = DataShipamnt.data;
     },
   },
   watch: {

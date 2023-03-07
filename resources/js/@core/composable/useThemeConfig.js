@@ -116,7 +116,6 @@ export const useThemeConfig = () => {
     syncInitialLoaderTheme,
     skin,
     appRouteTransition,
-
     // @layouts exports
     navbarType,
     isNavbarBlurEnabled,
