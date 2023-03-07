@@ -33,13 +33,13 @@ const errors = ref({
   email: undefined,
   password: undefined,
 })
-
+// const interval = ref()
 const refVForm = ref()
+
 // const email = ref('admin@demo.com')
-const mobile = ref()
-const otp = ref()
 const password = ref('admin')
 const rememberMe = ref(false)
+
 // var showOtp = ref(false)
 // var showContinue = ref(true)
 
@@ -55,6 +55,7 @@ const {appRouteTransition} = useThemeConfig()
 </script>
 
 <template>
+  <div>
   <VRow
     no-gutters
     class="auth-wrapper"
@@ -69,14 +70,24 @@ const {appRouteTransition} = useThemeConfig()
     <VCol
       cols="12"
       lg="6"
-      class="d-flex align-center auth-bg rounded-lg justify-center"
+      md="6"
     >
       <VCard
         flat
-        :max-width="700"
+
         class="mt-12 mt-sm-0 pa-4"
       >
         <VCardText>
+
+
+          <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+            <b-img
+              fluid
+              :src="imgUrl"
+              alt="Login V2"
+            />
+          </div>
+
           <VNodeRenderer
             :nodes="themeConfig.app.logo"
             class="mb-6"
@@ -85,9 +96,7 @@ const {appRouteTransition} = useThemeConfig()
           <h5 class="text-h5 font-weight-semibold mb-1">
             Welcome to {{ themeConfig.app.title }}! 👋🏻
           </h5>
-          <p class="mb-0">
-            Please sign-in to your account and start the adventure
-          </p>
+
         </VCardText>
 
         <VCardText>
@@ -97,88 +106,172 @@ const {appRouteTransition} = useThemeConfig()
           >
             <!--            @submit.prevent="onSubmit"-->
             <VRow>
+
               <!-- email -->
               <VCol cols="12">
                 <VTextField
                   v-model="mobile"
                   label="Mobile"
-                  type="mobile"
+                  type="text"
+                  @keypress="onlyNumber($event)"
+                  maxlength="10"
                   :rules="[requiredValidator, lengthValidator(mobile , 10)]"
                   :error-messages="errors.mobile"
                   class="mb-4"
                 />
-                <VBtn
-                  block
-                  type="button"
-                  class=""
-                  v-show="showContinue"
-                  @click="enterOtpShow(mobile)"
-                >
-                  Continue
-                </VBtn>
-              </VCol>
 
+
+              </VCol>
+            </VRow>
+            <VRow>
+              <VBtn
+                class="text-xs-center mx-auto"
+                type="button"
+                v-show="showContinue"
+                @click="enterOtpShow(mobile)"
+              >
+                <VIcon
+                  class="me-2"
+                  icon="tabler-message"
+                  size="22"
+                />
+
+                Send OTP
+              </VBtn>
+  </VRow>
+
+  <!--              </v-flex>-->
               <!-- password -->
-              <VCol cols="12" v-show="showOtp">
+              <div v-show="showOtp">
+                <VRow>
+                <VCol cols="12">
                 <VTextField
                   v-model="otp"
                   label="OTP"
+                  @keypress="onlyNumber($event)"
+                  type="text"
+                  maxlength="4"
                   :rules="[requiredValidator, lengthValidator(otp , 4)]"
                   :error-messages="errors.otp"
                 />
-
-                <div class="d-flex align-center flex-wrap justify-space-between mt-2 mb-4">
-                  <VCheckbox
-                    v-model="rememberMe"
-                    label="Remember me"
-                  />
-                  <RouterLink
-                    class="text-primary ms-2 mb-1"
-                    :to="{ name: 'forgot-password' }"
-                  >
-                    Forgot Password?
-                  </RouterLink>
-                </div>
-
-                <VBtn
-                  block
-                  type="submit"
-                  @click="login(otp, mobile)"
-                >
-                  Login
-                </VBtn>
               </VCol>
+                </VRow>
+<!--                <v-row>-->
+<!--                  <v-col sm="6">-->
+<!--                    <VBtn-->
+<!--                      class="mx-auto"-->
+<!--                      type="submit"-->
+<!--                      @click="login(otp, mobile)"-->
+<!--                    >-->
+<!--                      Verify OTP-->
+<!--                    </VBtn>-->
+<!--                  </v-col>-->
+<!--                  <v-col  sm="6">-->
+<!--                    <VBtn-->
+<!--                      color="success"-->
+<!--                      type="submit"-->
+<!--                      @click="login(otp, mobile)"-->
+<!--                    >-->
+<!--                      Resend OTP-->
+<!--                    </VBtn>-->
+<!--                  </v-col>-->
+<!--                  <v-col  sm="6">-->
+<!--                    <VBtn-->
+<!--                      color="info"-->
+<!--                      type="submit"-->
+<!--                      @click="login(otp, mobile)"-->
+<!--                    >-->
+<!--                      Mobile Number Change-->
+<!--                    </VBtn>-->
+<!--                  </v-col>-->
+<!--                </v-row>-->
+                <div class="mt-2 mb-2 text-center" v-show="OtpTimer">
+                  <v-progress-circular
+                    :rotate="360"
+                    :size="100"
+                    :width="15"
+                    :model-value="progressValue"
+                    color="teal"
+                  >
+                    {{ progressValue }}
+                  </v-progress-circular>
+                </div>
+                <div class="mt-5 text-center" >
+                  <VBtn
+                    class="text-center mt-1 ml-1"
+                    type="submit"
+                    @click="(login(otp, mobile))"
+                  >
+                    <VIcon
+                      class="me-2"
+                      icon="tabler-logout"
+                      size="22"
+                    />
+                     Verify OTP
+                  </VBtn>
+                  <VBtn
+                    v-show="RecentOtp"
+                    class="text-center mt-1 ml-1"
+                    color="success"
+                    type="submit"
+                    @click="(enterOtpShow(mobile),this.RecentOtp=false)"
+                  >
+                    <VIcon
+                      class="me-2"
+                      icon="tabler-reload"
+                      size="22"
+                    />
+                    Resend OTP
+                  </VBtn>
+
+                  <VBtn
+                    class="text-xs-center mt-1 ml-1"
+                    color="info"
+                    type="submit"
+                    @click="mobileNum()"
+                  >
+                    <VIcon
+                      class="me-2"
+                      icon="tabler-edit"
+                      size="22"
+                    />
+                    Mobile Number Change
+                  </VBtn>
+                </div>
+              </div>
+
+
 
               <!-- create account -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <span>New on our platform?</span>
-                <RouterLink
-                  class="text-primary ms-2"
-                  :to="{ name: 'register' }"
-                >
-                  Create an account
-                </RouterLink>
-              </VCol>
-              <VCol
-                cols="12"
-                class="d-flex align-center"
-              >
-                <VDivider/>
-                <span class="mx-4">or</span>
-                <VDivider/>
-              </VCol>
+              <!--              <VCol-->
+              <!--                cols="12"-->
+              <!--                class="text-center"-->
+              <!--              >-->
+              <!--                <span>New on our platform?</span>-->
+              <!--                <RouterLink-->
+              <!--                  class="text-primary ms-2"-->
+              <!--                  :to="{ name: 'register' }"-->
+              <!--                >-->
+              <!--                  Create an account-->
+              <!--                </RouterLink>-->
+              <!--              </VCol>-->
+              <!--              <VCol-->
+              <!--                cols="12"-->
+              <!--                class="d-flex align-center"-->
+              <!--              >-->
+              <!--                <VDivider/>-->
+              <!--                <span class="mx-4">or</span>-->
+              <!--                <VDivider/>-->
+              <!--              </VCol>-->
 
               <!-- auth providers -->
-              <VCol
-                cols="12"
-                class="text-center"
-              >
-                <AuthProvider/>
-              </VCol>
-            </VRow>
+              <!--              <VCol-->
+              <!--                cols="12"-->
+              <!--                class="text-center"-->
+              <!--              >-->
+              <!--                <AuthProvider/>-->
+              <!--              </VCol>-->
+
           </VForm>
         </VCardText>
       </VCard>
@@ -190,6 +283,27 @@ const {appRouteTransition} = useThemeConfig()
     </VCol>
   </VRow>
 
+  <VSnackbar
+    v-model="isSnackbar"
+    transition="scroll-y-reverse-transition"
+    location="top end"
+    color="warning"
+  >
+    {{TitleSnack}}
+    <template #actions>
+      <VBtn
+        color="white"
+        @click="isSnackbar = false"
+        max-width="500px"
+      >
+        <VIcon
+          icon="tabler-x"
+          size="20"
+        />
+      </VBtn>
+    </template>
+  </VSnackbar>
+  </div>
 </template>
 
 <style lang="scss">
@@ -205,16 +319,22 @@ redirectIfLoggedIn: true
 </route>
 <script>
 import axios from "@axios";
-
 export default {
   data() {
     return {
       showOtp: ref(false),
       showContinue: ref(true),
       otpDetail: [],
+      interval: '',
+      TitleSnack:'',
+      OtpTimer:false,
+      otp:'',
       userData: [],
+      RecentOtp:false,
+      isSnackbar:false,
       cartItem: [],
-      userAbilities: [{"action":"manage","subject":"all"}],
+      progressValue: 100,
+      userAbilities: [{"action": "manage", "subject": "all"}],
       favouriteList: [],
       mobile: '',
       otp: '',
@@ -231,29 +351,50 @@ export default {
 
   },
   methods: {
+    mobileNum(){
+      this.showOtp= this.OtpTimer = false;
+      this.showContinue =true;
+      this.progressValue=100;
+      this.otp='';
+    },
     enterOtpShow(mobile) {
-      if (mobile.length === 10) {
+      if (this.mobile.length === 10) {
+        this.progressValue=100
         this.showOtp = ref(true)
+        this.OtpTimer = true
         this.showContinue = ref(false)
         // this.mobile = mobile
-
-        axios.post('http://192.168.58.42:3000/api/site/action', {
+        axios.post(this.site_url, {
           action: 'getOtp',
           mobile: mobile,
         }).then(result => {
           this.otpDetail = result.data
-          // console.log(JSON.parse(JSON.stringify(this.otpDetail)))
-          // this.otp = this.otpDetail['otp']
-          alert(this.otpDetail['otp'])
+          this.interval = setInterval(() => {
+            if (this.progressValue === 0) {
+              return (this.RecentOtp = true,this.OtpTimer = false);
+            }
+            this.progressValue -= 1
+          }, 1000)
+          // alert(this.otpDetail['otp'])
         })
       } else {
-        alert('Enter 10 digit Mobile Number')
+        this.isSnackbar=true;
+        this.TitleSnack = 'Enter 10 digit Mobile Number';
       }
 
     },
+    onlyNumber($event) {
+      //console.log($event.keyCode); //keyCodes value
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      if ((keyCode < 48 || keyCode > 57)) { // 46 is dot
+        $event.preventDefault();
+      }
+    },
     login(otp, mobile) {
-      if (otp.length === 4) {
-        axios.post('http://192.168.58.42:3000/api/site/action', {
+      // console.log(otp);
+      // return 2;
+      if (this.otp.length === 4) {
+        axios.post(this.site_url, {
           action: 'getUserData',
           mobile: mobile,
           otp: otp,
@@ -266,7 +407,7 @@ export default {
             localStorage.setItem('userAbilities', JSON.stringify(this.userAbilities))
             if (localStorage.cartItem) {
               this.cartItem = JSON.parse(localStorage.getItem("cartItem") || '[]')
-              await axios.post('http://192.168.58.42:3000/api/site/action', {
+              await axios.post(this.site_url, {
                 action: 'addToCart',
                 userId: this.userData['id'],
                 proArray: (JSON.stringify(this.cartItem)),
@@ -279,7 +420,7 @@ export default {
             }
             if (localStorage.favouriteList) {
               this.favouriteList = JSON.parse(localStorage.getItem("favouriteList") || '[]')
-              await axios.post('http://192.168.58.42:3000/api/site/action', {
+              await axios.post(this.site_url, {
                 action: 'addToFavourite',
                 userId: this.userData['id'],
                 proArray: JSON.stringify(this.favouriteList),
@@ -292,32 +433,11 @@ export default {
             }
             this.router.replace(this.route.query.to ? String(this.route.query.to) : '/')
           } else {
-            alert('Incorrect OTP')
+            this.isSnackbar=true
+            this.TitleSnack = 'Incorrect OTP';
           }
         })
-
-      } else {
-        alert('Enter Valid OTP')
       }
-      // axios.post('http://192.168.58.42:3000/api/site/action', {
-      //   mobile: mobile.value,
-      //   password: password.value,
-      // }).then(r => {
-      //   const {accessToken, userData, userAbilities} = r.data
-      //
-      //   localStorage.setItem('userAbilities', JSON.stringify(userAbilities))
-      //   ability.update(userAbilities)
-      //   localStorage.setItem('userData', JSON.stringify(userData))
-      //   localStorage.setItem('accessToken', JSON.stringify(accessToken))
-      //
-      //   // Redirect to `to` query if exist or redirect to index route
-      //   router.replace(route.query.to ? String(route.query.to) : '/')
-      // }).catch(e => {
-      //   const {errors: formErrors} = e.response.data
-      //
-      //   errors.value = formErrors
-      //   console.error(e.response.data)
-      // })
     }
   }
 }

@@ -1,13 +1,13 @@
 import axios from "axios";
+import {useTodosStore} from "@/store/store1"
 
 export default {
     data() {
         return {
             cartItem: [],
+            cartCount: 0,
             favouriteList: [],
-            site_url:'http://localhost:8000/api/site/action',
-            // isAlertVisible: ref(true)
-            // isSnackbarScrollReverseVisible: ref(false),
+            site_url: 'http://localhost:8000/api/site/action',
             userAbilities: [{"action": "manage", "subject": "all"}],
         }
     },
@@ -17,23 +17,35 @@ export default {
             localStorage.setItem('userAbilities', JSON.stringify(this.userAbilities))
             location.reload();
         }
-              // $('#cartAlert').hide();
+        // $('#cartAlert').hide();
     },
     methods: {
+        // async ShipingAmntCalc(ProId, Qty) {
+        //     const DataShipamnt = await this.callAxios(this.site_url, {'action':'ShipingAmnt',ProId:ProId,Qty:Qty}, 'post');
+        //         return DataShipamnt;
+        //     //     console.log( JSON.parse(JSON.stringify(ProId) || '[]'))
+        // },
         addToCart(productId) {
+
+            // this.cartCount = 5;
             // console.log(isAlertVisible)
+            // alert(this.cartCount);
+            // return 3;
 
             // console.log(isAlertVisible)
             // alert('common')
             //add to cart server
 
             if (localStorage.userData) {
+                alert('here')
                 // this.cartItem = JSON.stringify(JSON.parse(localStorage.getItem("cartItem") || '[]'))
                 this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
                 this.cartItem.push({
                     productId: productId,
                     qty: 1
                 });
+                alert(useTodosStore().$state.cartCount)
+                useTodosStore().$state.cartCount +=1;
                 // console.log(JSON.stringify(this.cartItem))
                 // axios.post(this.site_url, {
                 //     action: 'addToCart',
@@ -54,12 +66,12 @@ export default {
                     this.cartItem = JSON.parse(localStorage.getItem("cartItem") || '[]')
                     let proQty = this.cartItem.filter(x => x.productId == productId).map(x => x.qty);
                     let proId = this.cartItem.filter(x => x.productId == productId).map(x => x.productId);
-                    // console.log(proQty)
                     if (!proQty.length) {
                         this.cartItem.push({
                             productId: productId,
                             qty: 1
                         });
+                        useTodosStore().$state.cartCount +=1;
                         localStorage.setItem("cartItem", JSON.stringify(this.cartItem));
                     }
                     // console.log(JSON.stringify(this.cartItem))
@@ -71,6 +83,7 @@ export default {
                         productId: productId,
                         qty: 1
                     });
+                    useTodosStore().$state.cartCount +=1;
                     // console.log(JSON.stringify(this.cartItem))
                     localStorage.setItem("cartItem", JSON.stringify(this.cartItem));
                 }

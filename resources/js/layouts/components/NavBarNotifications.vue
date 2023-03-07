@@ -7,6 +7,9 @@ import avatar4 from '@images/avatars/avatar-4.png'
 import avatar5 from '@images/avatars/avatar-5.png'
 import paypal from '@images/svg/paypal.svg'
 
+// const a = cart.$state.cartCount= 4;
+// // console.log(cart)
+// const cartCount = a
 const notifications = [
   {
     img: avatar4,
@@ -43,38 +46,43 @@ const notifications = [
 </script>
 
 <template>
-  <Notifications :notifications="notifications" :cartCount="cartCount" />
+  <Notifications :notifications="notifications" :cartCount="useTodosStore().$state.cartCount" />
 </template>
 <script>
 import axios from "axios";
+import {useTodosStore} from "@/store/store1"
+
 export default {
   data(){
     return{
       cartCounts: [],
       userData1: [],
-      cartCount: 0,
+      cartCount:0,
+      cartCount1:0,
+      useTodosStore
     }
   },
   created() {
+
     if (localStorage.userData) {
       this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
-      // alert(this.userData1.id)
       axios.post(this.site_url, {
         action: 'getCartCount',
         userId: this.userData1.id,
       })
         .then(result => {
           this.cartCount = result.data
-          // this.cartCount = this.cartCounts.length
-          // alert(this.cartCount)
+          useTodosStore().$state.cartCount=result.data;
         });
     } else {
       if (localStorage.cartItem) {
-        // alert('hd')
         this.cartCounts = JSON.parse(localStorage.getItem("cartItem") || '[]')
         this.cartCount = this.cartCounts.length
+        useTodosStore().$state.cartCount=this.cartCounts.length;
+        // this.cartCount = this.cartCounts.length
       } else {
         this.cartCount = 0;
+        useTodosStore().$state.cartCount=0;
       }
     }
   }

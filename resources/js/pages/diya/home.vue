@@ -32,7 +32,7 @@ import bannerImage from '@images/banner/banner1.png'
     >
 
       <!--      <VCard>-->
-      <v-carousel style="height: 350px">
+      <v-carousel  cycle interval="3000" style="height: 350px">
         <v-carousel-item
           v-for="(item,index) in slider"
           :key="index"
@@ -50,24 +50,39 @@ import bannerImage from '@images/banner/banner1.png'
 
   </VRow>
   <br>
-  <h2>Most Viewed Products</h2>
-  <br>
-  <VRow>
-    <VCol v-for="(product,index) in mostViewedList" :key="index"
 
-          md="4"
-          sm="6"
-          lg="3"
+<!--  <VRow style="margin: 0px!important;">-->
+<!--    -->
+    <h2 style="padding-left:12px;">Most Viewed Products</h2>
+<!--  </VRow>-->
+
+  <br>
+  <VRow class="mx-auto pr-2">
+    <VCol v-for="(product,index) in mostViewedList" :key="index"
+      md="3"
+      xs="6"
+      sm="6"
     >
+      <VBadge content="New"
+              location="top start"
+              offset-x="50"
+              offset-y="-3"
+              rounded="sm"
+      >
       <ProductCard
         :product="product"
         :index="index"
       />
+      </VBadge>
     </VCol>
 
   </VRow>
   <br>
-  <h2>Newly Added Products</h2><br>
+
+  <VRow style="margin: 0px!important;">
+    <h2 style="padding-left:12px;">Newly Added Products</h2>
+  </VRow>
+  <br>
   <VRow>
     <VCol v-for="(product,index) in ProductsList" :key="index"
           md="4"
@@ -112,9 +127,6 @@ export default {
       limit: 0,
       userData1: [{"id": ''}],
     }
-  },
-  mounted() {
-    alert(this.cartCount);
   },
   created() {
       // console.log(this.$options);
@@ -344,6 +356,11 @@ export default {
 .v-window__right {
   background: rgba(var(--v-theme-surface-variant), 0.3) !important;
 }
+@media only screen and (max-width: 600px) {
+
+
+}
+
 
 @media (max-width: 991px) {
 
@@ -362,5 +379,12 @@ export default {
     height: 150px;
   }
 
+}
+
+
+
+.v-badge {
+   display: unset;
+  //line-height: 1;
 }
 </style>

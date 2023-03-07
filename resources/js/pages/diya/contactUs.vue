@@ -53,6 +53,7 @@ fetchHelpCenterData()
       </h5>
 
     </VCardText>
+
     <div class="py-12">
       <VCardText class="text-center py-6">
         <h5 class="text-h5 text-center mb-6">
@@ -145,6 +146,8 @@ fetchHelpCenterData()
 }
 </style>
 <script>
+import {useTodosStore} from "@/store/store1";
+
 export default{
   data() {
     return {
@@ -152,6 +155,7 @@ export default{
     }
   },
   async created() {
+    console.log(useTodosStore().$state.cartCount)
     const ContactData = await this.callAxios(this.site_url, {'action':'ContactDetails'}, 'post');
     this.contactData=ContactData.data[0];
     // console.log(ContactData)

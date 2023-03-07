@@ -7,24 +7,36 @@ import ProductDetail
 import relatedProducts from '@/views/dashboards/crm/relatedProduct.vue'
 import CrmSalesAreaCharts from '@/views/dashboards/crm/CrmSalesAreaCharts.vue'
 import ProductCard from '@/views/diya/diya/card.vue'
-
 </script>
 
 <template>
   <div>
-  <VRow>
-    <VCol v-for="(product,index) in ProductsList" :key="index"
-          cols="12"
-          md="4"
-          sm="6"
-          lg="3"
-    >
-      <ProductCard
-        :product="product"
-        :index="index"
-      />
-    </VCol>
-  </VRow>
+    <template v-if="ProductsList.length > 0">
+      <div class="loading" v-if="loading===1">
+        <div class="effect-1 effects"></div>
+        <div class="effect-2 effects"></div>
+        <div class="effect-3 effects"></div>
+      </div>
+      <div class="loading" v-else>
+      </div>
+      <VRow>
+        <VCol v-for="(product,index) in ProductsList" :key="index"
+              cols="12"
+              md="4"
+              sm="6"
+              lg="3"
+        >
+          <ProductCard
+            :product="product"
+            :index="index"
+          />
+        </VCol>
+      </VRow>
+    </template>
+    <template v-else>
+      <h2>NO data</h2>
+    </template>
+
   </div>
 </template>
 
@@ -35,13 +47,11 @@ import axios from "axios";
 
 // const route = useRoute()
 export default {
-  // setup(){
-  //   alert('check')
-  // },
   inheritAttrs: false,
   data() {
     return {
       ProductsList: [],
+      loading: 1,
       relatedProduct: [],
       userData: [],
       categoryId: '',
@@ -88,7 +98,6 @@ export default {
       }
     }
     // this.getDetails()
-
   }
 
 }

@@ -133,6 +133,7 @@ const panel = ref(0)
       </div>
       <div class="loading" v-else>
       </div>
+
       <VRow>
         <VCol cols="12" v-for="(product,index) in ProductsList" :key="index"
               md="4"
@@ -144,7 +145,7 @@ const panel = ref(0)
         </VCol>
       </VRow>
     </VCol>
-
+    {{ProductsList.length}}
 
   </VRow>
   <VSnackbar
@@ -180,7 +181,7 @@ const panel = ref(0)
 const isSnackbarScrollReverseVisible = ref(false)
 
 import axios from "axios";
-
+import debounce from 'lodash/debounce';
 // const route = useRoute()
 export default {
   // setup(){
@@ -190,6 +191,10 @@ export default {
   data() {
     return {
       ProductsList: [],
+      limit:0,
+      tempProductsList: [],
+      ProductId:[],
+      DataCall:false,
       categoryList: [],
       sortingList: [
         {
@@ -209,6 +214,10 @@ export default {
       // id: $route.params.id
     }
   },
+  mounted(){
+    this.handleDebouncedScroll = debounce(this.handleScroll, 100);
+    window.addEventListener('scroll', this.handleDebouncedScroll);
+  },
   async created() {
     this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
     this.loading = 1;
@@ -226,7 +235,7 @@ export default {
       action: 'ProductsList',
       lang_id: localStorage.lang_id,
       userId: this.userData1.id,
-
+      ProId:this.ProductId,
     })
       .then(result => {
         this.ProductsList = result.data
@@ -263,11 +272,14 @@ export default {
         category: categoryId,
         priceFilter: this.priceFilter,
         userId: this.userData1.id,
+        ProId:this.ProductId
 
       })
         .then(result => {
-          this.ProductsList = result.data
           this.loading = 0;
+          this.ProductsList = result.data
+          this.ProductId = this.ProductsList.map(x => x.id);
+
           // console.log(result.data)
           // this.relatedProduct = (JSON.parse(JSON.stringify(this.relatedProduct1)))
           // console.log(JSON.parse(JSON.stringify(this.relatedProduct)))
@@ -291,15 +303,63 @@ export default {
         category: this.categoryId,
         priceFilter: this.priceFilter,
         userId: this.userData1.id,
+        ProId:this.ProductId,
       })
         .then(result => {
           this.ProductsList = result.data
           this.loading = 0;
+          this.ProductId = this.ProductsList.map(x => x.id);
           // console.log(result.data)
           // this.relatedProduct = (JSON.parse(JSON.stringify(this.relatedProduct1)))
           // console.log(JSON.parse(JSON.stringify(this.relatedProduct)))
         });
-    }
+    },
+    async handleScroll(event) {
+      // Any code to be executed when the window is scrolled
+      var windowScrollYOld = 0, windowScrollYNew = 0;
+      this.isUserScrolling = (window.scrollY > 0);
+      windowScrollYNew = window.scrollY;//alert(windowScrollYNew + '>' + windowScrollYOld);
+      if ((window.innerHeight + window.scrollY) >= ((document.body.offsetHeight) - 40) && windowScrollYNew > windowScrollYOld) {
+        // alert((window.innerHeight + window.scrollY) + '>=' + document.body.offsetHeight)
+        // alert(this.limit)
+        this.limit = this.limit + 20
+        this.loading = 1
+        await axios.post(this.site_url, {
+          action: 'categoryFilter',
+          lang_id: localStorage.lang_id,
+          limit: this.limit,
+          category: this.categoryId,
+          priceFilter: this.priceFilter,
+          ProId:this.ProductId,
+        })
+          .then(result => {
+            this.tempProductsList = result.data
+            this.loading = 0
+            // console.log(JSON.parse(JSON.stringify(this.tempProductsList)))
+            var list = this.ProductsList;
+            this.tempProductsList.map(function (value, key) {
+              list.push(value)
+            });
+            this.ProductsList = list;
+            this.ProductId = this.ProductsList.map(x => x.id);
+
+            // console.log(this.ProductsList)
+          });
+        if (!localStorage.userData) {
+          if (localStorage.favouriteList) {
+            this.ProductsList.forEach((value, index) => {
+              this.favouriteList = JSON.parse(localStorage.getItem("favouriteList") || '[]')
+              let proId = this.favouriteList.filter(x => x.productId == value.id).map(x => x.productId);
+              if (proId[0] === value.id) {
+                // JSON.parse(JSON.stringify(this.ProductsList[index])).is_fav = 1
+                this.ProductsList[index].is_fav = 1
+              }
+            });
+          }
+        }
+      }
+      windowScrollYOld = windowScrollYNew;
+    },
   }
 }
 </script>
