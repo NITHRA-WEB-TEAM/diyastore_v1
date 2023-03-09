@@ -60,7 +60,7 @@ export default {
   created() {
     window.addEventListener('scroll', this.handleScroll);
     this.loading = 1
-    axios.post('http://192.168.58.42:3000/api/site/action', {action: 'ProductsList', lang_id: localStorage.lang_id})
+    axios.post(this.site_url, {action: 'ProductsList', lang_id: localStorage.lang_id})
       .then(result => {
         // console.log(result.data)
         this.ProductsList = result.data

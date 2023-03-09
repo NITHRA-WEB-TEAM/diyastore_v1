@@ -1,17 +1,17 @@
 <template>
-  <VCard>
+  <VCard class="mt-13">
     <VCardText>
       <!-- 👉 Send Invoice Trigger button -->
       <span class="truncate-16">PRICE DETAILS</span>
       <VDivider/>
       <br>
-      <p><span class="mb-4 mr-2">Price({{ ProductsList.length }} Items)</span><span class="ml-16">₹
+      <p><span class="mb-4 mr-2">Price({{ ProductsList.length }} Items)</span><span class="ml-16 float-right">₹
           {{ getTotal() }}
           </span></p>
-      <p><span class="mb-4 mr-16">Discount</span><span class="ml-16">₹ {{ getDiscount() }}</span></p>
+      <p><span class="mb-4 mr-16">Discount</span><span class="ml-16 float-right">₹ {{ getDiscount() }}</span></p>
       <VDivider/>
       <p class="mt-4"><span class=" mr-12 font-weight-bold text-black">Total Amount</span><span
-        class="ml-8 font-weight-bold text-black">₹ {{ totalPrice - totalDiscount }}</span></p>
+        class="ml-8 font-weight-bold text-black float-right">₹ {{ totalPrice - totalDiscount }}</span></p>
       <VDivider/>
       <br>
 
@@ -48,7 +48,6 @@ export default {
     }
   },
   async created() {
-    alert('sss')
     console.log(this.ProductsList)
   },
   methods: {

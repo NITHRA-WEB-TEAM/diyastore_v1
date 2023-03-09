@@ -20,7 +20,7 @@ import CheckOut
       </div>
       <div class="loading" v-else>
       </div>
-      <VRow class="match-height">
+      <VRow class="match-height mt-1">
         <!--     <div class="loading"  >-->
         <!--      <div class="effect-1 effects"></div>-->
         <!--      <div class="effect-2 effects"></div>-->
@@ -43,10 +43,11 @@ import CheckOut
               <p><span class="mb-4 mr-2">Price({{ ProductsList.length }} Items)</span><span class="ml-16 float-right">₹
           {{ getTotal() }}
           </span></p>
-              <p><span class="mb-4 mr-16">Discount</span><span class=" float-right ml-16">₹ {{ getDiscount() }}</span></p>
+              <p><span class="mb-4 mr-16">Discount</span><span class=" float-right ml-16">₹ {{ getDiscount() }}</span>
+              </p>
               <VDivider/>
               <p class="mt-4"><span class=" mr-12 font-weight-bold text-black">Total Amount</span><span
-                class="ml-8 font-weight-bold text-black float-right">₹ 897652 </span></p>
+                class="ml-8 font-weight-bold text-black float-right">₹ {{ getTotal() - getDiscount() }}  </span></p>
               <VDivider/>
               <br>
 
@@ -189,10 +190,9 @@ import CheckOut
                   Only {{ product.stock }} left
                 </h6>
                 <VAvatar
-                  color=""
                   rounded
                   class="me-2 v-btn--elevated"
-                  style="margin-left: 30px;"
+                  style="margin-left: 30px;cursor:pointer;"
                   @click="deleteCartItem(product.id)"
                 >
                   <VIcon
@@ -225,165 +225,168 @@ import CheckOut
       </VRow>
     </template>
     <template v-else>
-    <h2>NO data</h2>
+      <h2>NO data</h2>
     </template>
 
 
-<!--  <VRow class="match-height">-->
-<!--    <VCol-->
-<!--      cols="12"-->
-<!--      md="8"-->
-<!--      sm="8"-->
-<!--      lg="8"-->
-<!--    >-->
-<!--      <h2 class="align-center">Product Wish List(20)</h2>-->
-<!--    </VCol>-->
+    <!--  <VRow class="match-height">-->
+    <!--    <VCol-->
+    <!--      cols="12"-->
+    <!--      md="8"-->
+    <!--      sm="8"-->
+    <!--      lg="8"-->
+    <!--    >-->
+    <!--      <h2 class="align-center">Product Wish List(20)</h2>-->
+    <!--    </VCol>-->
 
-<!--    <VCol v-for="(product,index) in favoriteProduct" :key="index"-->
-<!--          cols="12"-->
-<!--          md="8"-->
-<!--    >-->
-<!--      <VCard>-->
-<!--        &lt;!&ndash;/*    <img src="../../../../images/svg/gift.svg" style="width: -webkit-fill-available;" alt="">*/&ndash;&gt;-->
-<!--        &lt;!&ndash; SECTION Header &ndash;&gt;-->
-<!--        <VCardText class="d-flex flex-wrap justify-space-between flex-column flex-sm-row print-row">-->
-<!--          &lt;!&ndash; 👉 Left Content &ndash;&gt;-->
-<!--          <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">-->
-<!--            <img :src="product.images[0].src" width="150" height="150" alt="">-->
-<!--          </RouterLink>-->
-<!--          <div class="">-->
-<!--            <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">-->
-<!--              <div class="d-flex align-center mb-6">-->
-<!--                &lt;!&ndash; 👉 Title &ndash;&gt;-->
-<!--                <h5 class="font-weight-bold">-->
-<!--                  {{ product.titles.substring(0, 50) + "..." }}-->
-<!--                </h5>-->
-<!--              </div>-->
-<!--              <p class="mb-0 font-weight-medium  ">-->
-<!--                <span class="text-decoration-line-through mr-4"> M.R.P : ₹ {{ product.price }}</span>-->
-<!--                <span class="mb-0 font-weight-medium text-success mr-4 ">-->
-<!--              M.R.P : ₹ {{ Math.ceil(product.price - product.discount_amt) }}-->
-<!--            </span>-->
-<!--                <span class="mb-0 font-weight-medium text-error mr-4">-->
-<!--              {{ product.discount }} %-->
-<!--            </span>-->
-<!--                <span class="mb-0 font-weight-medium text-warning ">-->
-<!--              You Save : ₹ {{ Math.ceil(product.discount_amt) }}-->
-<!--            </span>-->
-<!--              </p>-->
-<!--              <br>-->
-<!--            </RouterLink>-->
-<!--            <div class="d-flex align-center ml-0">-->
-<!--              <VAvatar-->
-<!--                color="#FF6801"-->
-<!--                style="width: 160px;height: 45px;color: white"-->
-<!--                rounded-->
-<!--                class="me-2 v-btn&#45;&#45;elevated"-->
-<!--                @click.once="isSnackbarScrollReverseVisible = true;addToCart(product.id)"-->
-<!--                type="button"-->
-<!--              >-->
-<!--                <VIcon-->
-<!--                  size="30"-->
-<!--                  icon="tabler-shopping-cart-plus"-->
-<!--                />-->
-<!--                Move to cart-->
-<!--              </VAvatar>-->
-<!--              <VAvatar-->
-<!--                color="success"-->
-<!--                style="width: 160px;height: 45px"-->
-<!--                rounded-->
-<!--                class="me-2 v-btn&#45;&#45;elevated"-->
-<!--                type="button"-->
-<!--              >-->
-<!--                <VIcon-->
-<!--                  size="25"-->
-<!--                  icon="tabler-credit-card"-->
-<!--                />-->
-<!--                <div style="flex-grow: 0.1"> Buy Now</div>-->
-<!--              </VAvatar>-->
-<!--              &lt;!&ndash;        <span>Add to cart</span>&ndash;&gt;-->
-<!--            </div>-->
-<!--          </div>-->
+    <!--    <VCol v-for="(product,index) in favoriteProduct" :key="index"-->
+    <!--          cols="12"-->
+    <!--          md="8"-->
+    <!--    >-->
+    <!--      <VCard>-->
+    <!--        &lt;!&ndash;/*    <img src="../../../../images/svg/gift.svg" style="width: -webkit-fill-available;" alt="">*/&ndash;&gt;-->
+    <!--        &lt;!&ndash; SECTION Header &ndash;&gt;-->
+    <!--        <VCardText class="d-flex flex-wrap justify-space-between flex-column flex-sm-row print-row">-->
+    <!--          &lt;!&ndash; 👉 Left Content &ndash;&gt;-->
+    <!--          <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">-->
+    <!--            <img :src="product.images[0].src" width="150" height="150" alt="">-->
+    <!--          </RouterLink>-->
+    <!--          <div class="">-->
+    <!--            <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">-->
+    <!--              <div class="d-flex align-center mb-6">-->
+    <!--                &lt;!&ndash; 👉 Title &ndash;&gt;-->
+    <!--                <h5 class="font-weight-bold">-->
+    <!--                  {{ product.titles.substring(0, 50) + "..." }}-->
+    <!--                </h5>-->
+    <!--              </div>-->
+    <!--              <p class="mb-0 font-weight-medium  ">-->
+    <!--                <span class="text-decoration-line-through mr-4"> M.R.P : ₹ {{ product.price }}</span>-->
+    <!--                <span class="mb-0 font-weight-medium text-success mr-4 ">-->
+    <!--              M.R.P : ₹ {{ Math.ceil(product.price - product.discount_amt) }}-->
+    <!--            </span>-->
+    <!--                <span class="mb-0 font-weight-medium text-error mr-4">-->
+    <!--              {{ product.discount }} %-->
+    <!--            </span>-->
+    <!--                <span class="mb-0 font-weight-medium text-warning ">-->
+    <!--              You Save : ₹ {{ Math.ceil(product.discount_amt) }}-->
+    <!--            </span>-->
+    <!--              </p>-->
+    <!--              <br>-->
+    <!--            </RouterLink>-->
+    <!--            <div class="d-flex align-center ml-0">-->
+    <!--              <VAvatar-->
+    <!--                color="#FF6801"-->
+    <!--                style="width: 160px;height: 45px;color: white"-->
+    <!--                rounded-->
+    <!--                class="me-2 v-btn&#45;&#45;elevated"-->
+    <!--                @click.once="isSnackbarScrollReverseVisible = true;addToCart(product.id)"-->
+    <!--                type="button"-->
+    <!--              >-->
+    <!--                <VIcon-->
+    <!--                  size="30"-->
+    <!--                  icon="tabler-shopping-cart-plus"-->
+    <!--                />-->
+    <!--                Move to cart-->
+    <!--              </VAvatar>-->
+    <!--              <VAvatar-->
+    <!--                color="success"-->
+    <!--                style="width: 160px;height: 45px"-->
+    <!--                rounded-->
+    <!--                class="me-2 v-btn&#45;&#45;elevated"-->
+    <!--                type="button"-->
+    <!--              >-->
+    <!--                <VIcon-->
+    <!--                  size="25"-->
+    <!--                  icon="tabler-credit-card"-->
+    <!--                />-->
+    <!--                <div style="flex-grow: 0.1"> Buy Now</div>-->
+    <!--              </VAvatar>-->
+    <!--              &lt;!&ndash;        <span>Add to cart</span>&ndash;&gt;-->
+    <!--            </div>-->
+    <!--          </div>-->
 
-<!--          <div class="mt-4 ">-->
-<!--            <VCol-->
-<!--              cols="2"-->
-<!--              md="2"-->
-<!--              sm="2"-->
-<!--              lg="2"-->
-<!--              style="margin: -20px 0px 0px 35px;"-->
-<!--            >-->
-<!--              <VBtn-->
-<!--                icon-->
-<!--                variant="text"-->
-<!--                color="error"-->
-<!--                size="small"-->
-<!--                v-if="product.is_fav === 1"-->
-<!--                @click="product.is_fav = 0; addToFavourite(product.id);"-->
-<!--              >-->
-<!--                <VIcon-->
-<!--                  icon="tabler-heart-filled"-->
-<!--                  size="24"-->
-<!--                />-->
+    <!--          <div class="mt-4 ">-->
+    <!--            <VCol-->
+    <!--              cols="2"-->
+    <!--              md="2"-->
+    <!--              sm="2"-->
+    <!--              lg="2"-->
+    <!--              style="margin: -20px 0px 0px 35px;"-->
+    <!--            >-->
+    <!--              <VBtn-->
+    <!--                icon-->
+    <!--                variant="text"-->
+    <!--                color="error"-->
+    <!--                size="small"-->
+    <!--                v-if="product.is_fav === 1"-->
+    <!--                @click="product.is_fav = 0; addToFavourite(product.id);"-->
+    <!--              >-->
+    <!--                <VIcon-->
+    <!--                  icon="tabler-heart-filled"-->
+    <!--                  size="24"-->
+    <!--                />-->
 
-<!--              </VBtn>-->
-<!--              <VBtn-->
-<!--                icon-->
-<!--                variant="text"-->
-<!--                color="error"-->
-<!--                size="small"-->
-<!--                @click="product.is_fav = 1; addToFavourite(product.id);"-->
-<!--                v-else-->
-<!--              >-->
-<!--                <VIcon-->
-<!--                  icon="tabler-heart"-->
-<!--                  size="24"-->
-<!--                />-->
+    <!--              </VBtn>-->
+    <!--              <VBtn-->
+    <!--                icon-->
+    <!--                variant="text"-->
+    <!--                color="error"-->
+    <!--                size="small"-->
+    <!--                @click="product.is_fav = 1; addToFavourite(product.id);"-->
+    <!--                v-else-->
+    <!--              >-->
+    <!--                <VIcon-->
+    <!--                  icon="tabler-heart"-->
+    <!--                  size="24"-->
+    <!--                />-->
 
-<!--              </VBtn>-->
-<!--            </VCol>-->
-<!--            <h6 v-if="product.stock > 10" class="font-weight-medium text-xl mb-6 text-success">-->
-<!--              In Stock-->
-<!--            </h6>-->
-<!--            <h6 v-else class="font-weight-medium mb-6 text-error">-->
-<!--              Only {{ product.stock }} left-->
-<!--            </h6>-->
+    <!--              </VBtn>-->
+    <!--            </VCol>-->
+    <!--            <h6 v-if="product.stock > 10" class="font-weight-medium text-xl mb-6 text-success">-->
+    <!--              In Stock-->
+    <!--            </h6>-->
+    <!--            <h6 v-else class="font-weight-medium mb-6 text-error">-->
+    <!--              Only {{ product.stock }} left-->
+    <!--            </h6>-->
 
 
-<!--          </div>-->
-<!--        </VCardText>-->
-<!--        &lt;!&ndash; !SECTION &ndash;&gt;-->
-<!--        <VDivider/>-->
-<!--      </VCard>-->
-<!--    </VCol>-->
+    <!--          </div>-->
+    <!--        </VCardText>-->
+    <!--        &lt;!&ndash; !SECTION &ndash;&gt;-->
+    <!--        <VDivider/>-->
+    <!--      </VCard>-->
+    <!--    </VCol>-->
 
-<!--  </VRow>-->
-  <VSnackbar
-    v-model="isSnackbarScrollReverseVisible"
-    transition="scroll-y-reverse-transition"
-    location="top end"
-    color="warning"
-  >
-    Added to Cart
-    <template #actions>
-      <VBtn
-        color="white"
-        @click="isSnackbarScrollReverseVisible = false"
-        max-width="500px"
-      >
-        <VIcon
-          icon="tabler-x"
-          size="20"
-        />
-      </VBtn>
-    </template>
-  </VSnackbar>
+    <!--  </VRow>-->
+    <VSnackbar
+      v-model="isSnackbarScrollReverseVisible"
+      transition="scroll-y-reverse-transition"
+      location="top end"
+      color="warning"
+    >
+      Added to Cart
+      <template #actions>
+        <VBtn
+          color="white"
+          @click="isSnackbarScrollReverseVisible = false"
+          max-width="500px"
+        >
+          <VIcon
+            icon="tabler-x"
+            size="20"
+          />
+        </VBtn>
+      </template>
+    </VSnackbar>
   </div>
 </template>
 
 <style lang="scss">
+//@import '~@resources/scss/vue/libs/vue-sweetalert.scss';
 </style>
 <script>
+import {useTodosStore} from "@/store/store1";
+
 const isSnackbarScrollReverseVisible = ref(false)
 
 import axios from "axios";
@@ -397,7 +400,7 @@ export default {
   data() {
     return {
       ProductsList: [],
-      ProID:[],
+      ProID: [],
       loading: 1,
       favoriteProduct: [],
       userData: [],
@@ -419,7 +422,7 @@ export default {
         userId: this.userData.id,
       })
         .then(result => {
-        this.loading=0;
+          this.loading = 0;
           this.ProductsList = result.data
 
           // console.log(JSON.parse(JSON.stringify(this.ProductsList)))
@@ -437,7 +440,7 @@ export default {
           lang_id: localStorage.lang_id,
         })
           .then(result => {
-            this.loading=0;
+            this.loading = 0;
             this.ProductsList = result.data;
             // console.log(JSON.parse(JSON.stringify(this.ProductsList)))
             this.ProductsList.forEach((value, index) => {
@@ -461,7 +464,7 @@ export default {
             // alert(this.categoryId)
           });
 
-      }else{
+      } else {
 
       }
       // this.loading=0;
@@ -470,14 +473,12 @@ export default {
     axios.post(this.site_url, {
       action: 'ProductsList',
       lang_id: localStorage.lang_id,
-      ProId:this.ProID
+      ProId: this.ProID
 
     })
       .then(result => {
         this.favoriteProduct = result.data
         // console.log(result.data)
-        // this.favoriteProduct = (JSON.parse(JSON.stringify(this.favoriteProduct)))
-        // console.log(JSON.parse(JSON.stringify(this.favoriteProduct)))
       });
     // this.getDetails()
   },
@@ -493,6 +494,9 @@ export default {
       return this.totalDiscount = Math.ceil(sumDiscount)
     },
     deleteCartItem(cartItemId) {
+      let icon = 'success';
+      let title = 'Remove Item';
+      let text = 'Are you sure you want to remove this item?';
       if (localStorage.userData) {
         alert(cartItemId)
         axios.post(this.site_url, {
@@ -503,23 +507,59 @@ export default {
         })
           .then(result => {
             if (result.data.status === 'success') {
-              var deletedCart = this.ProductsList.findIndex(item => item.id === cartItemId);
-              this.ProductsList.splice(deletedCart, 1);
+              this.$swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+                confirmButtonText: 'Remove',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  var deletedCart = this.ProductsList.findIndex(item => item.id === cartItemId);
+                  this.ProductsList.splice(deletedCart, 1);
+                  let DeletedVal = useTodosStore().$state.cartCount > 0 ? useTodosStore().$state.cartCount - 1 : 0;
+                  useTodosStore().$state.cartCount = DeletedVal;
+                  this.$swal.fire(
+                    'Deleted!',
+                    'Successfully Removed From Your Cart',
+                    'success'
+                  )
+                }
+              })
             }
-            // this.favoriteProduct = (JSON.parse(JSON.stringify(this.favoriteProduct)))
-            // console.log(JSON.parse(JSON.stringify(this.favoriteProduct)))
           });
       } else {
-        alert('ssss')
         if (localStorage.cartItem) {
-          alert('ssss')
-          this.cartItem = JSON.parse(localStorage.getItem("cartItem") || '[]')
-          var deletedCart = this.cartItem.findIndex(item => item.productId === cartItemId);
-          var proListDelCart = this.ProductsList.findIndex(item => item.id === cartItemId);
-          this.cartItem.splice(deletedCart, 1);
-          this.ProductsList.splice(proListDelCart, 1);
-          localStorage.setItem("cartItem", JSON.stringify(this.cartItem));
 
+          this.$swal.fire({
+            title: title,
+            text: text,
+            icon: icon,
+            confirmButtonText: 'Remove',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.cartItem = JSON.parse(localStorage.getItem("cartItem") || '[]')
+              var deletedCart = this.cartItem.findIndex(item => item.productId === cartItemId);
+              var proListDelCart = this.ProductsList.findIndex(item => item.id === cartItemId);
+              this.cartItem.splice(deletedCart, 1);
+              this.ProductsList.splice(proListDelCart, 1);
+              let DeletedVal = useTodosStore().$state.cartCount > 0 ? useTodosStore().$state.cartCount - 1 : 0;
+              useTodosStore().$state.cartCount = DeletedVal;
+              localStorage.setItem("cartItem", JSON.stringify(this.cartItem));
+              this.$swal.fire(
+                'Deleted!',
+                'Successfully Removed From Your Cart',
+                'success'
+              )
+            }
+          })
         }
       }
     }
