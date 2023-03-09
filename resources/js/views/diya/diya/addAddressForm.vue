@@ -189,7 +189,7 @@ export default {
   async created() {
     this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
 
-    await axios.post('http://192.168.58.42:3000/api/site/action', {
+    await axios.post(this.site_url, {
       action: 'getStateList',
     })
       .then(result => {
@@ -218,7 +218,7 @@ export default {
           // });
 
           // console.log(JSON.stringify(addressArray))
-          await axios.post('http://192.168.58.42:3000/api/site/action', {
+          await axios.post(this.site_url, {
             action: 'addUserAddress',
             name: this.userAddress.name,
             mobile: this.userAddress.mobile,

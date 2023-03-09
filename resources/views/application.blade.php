@@ -4,9 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="/fav_icon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"/>
+
   <title>DiyaStore - Pooja items shopping</title>
   <link rel="stylesheet" type="text/css" href="/loader.css" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{{--  <script type="application/javascript" src="https://securegw.paytm.in//merchantpgpui/checkoutjs/merchants/PYTMDM29354165830326.js"></script>--}}
+
+{{--    <script type="application/javascript" src="https://securegw.paytm.in/merchantpgpui/checkoutjs/merchants/NITHRA89390541186008.js" ></script>--}}
   @vite(['resources/js/main.js'])
 </head>
 

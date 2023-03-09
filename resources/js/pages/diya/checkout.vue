@@ -34,7 +34,9 @@
 
 <script>
 import axios from '@axios'
-import AppSearchHeaderBg from '../../../../../full-version_test/resources/images/pages/app-search-header-bg1.png'
+// const Razorpay = require('razorpay');
+// import Razorpay from 'razorpay'
+import AppSearchHeaderBg from '@images/pages/app-search-header-bg1.png'
 import { onMounted } from "vue"
 export default {
   data(){
