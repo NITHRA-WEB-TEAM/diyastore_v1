@@ -20,11 +20,9 @@ export default {
         // $('#cartAlert').hide();
     },
     methods: {
-        // async ShipingAmntCalc(ProId, Qty) {
-        //     const DataShipamnt = await this.callAxios(this.site_url, {'action':'ShipingAmnt',ProId:ProId,Qty:Qty}, 'post');
-        //         return DataShipamnt;
-        //     //     console.log( JSON.parse(JSON.stringify(ProId) || '[]'))
-        // },
+        GoToCart(productId){
+            this.$router.push({ path: `/diya/cart`});
+        },
         sweetAlertConfirm(icon, title, text) {
             this.$swal.fire({
                 title: title,
@@ -44,6 +42,19 @@ export default {
                     )
                 }
             })
+        },
+        onlyNumber($event) {
+            let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+            if ((keyCode < 48 || keyCode > 57)) { // 46 is dot
+                $event.preventDefault();
+            }
+        },
+        sweetalert(title,desc,icon){
+            this.$swal.fire(
+                title,
+                desc,
+                icon
+            )
         },
         addToCart(productId) {
             if (localStorage.userData) {
