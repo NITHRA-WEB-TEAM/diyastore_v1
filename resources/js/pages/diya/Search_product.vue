@@ -5,46 +5,11 @@ import bannerImage from '@images/banner/banner1.png'
 
 <template>
   <div>
-    <VImg
-      class="mb-10"
-      src="https://d1zqapbqie7n0v.cloudfront.net/diya_stores_wesite.png"
-    />
-    <VSheet
-      class="mx-auto"
-      elevation="8"
 
-    >
-      <VSlideGroup
-        v-model="model"
-        class="pa-4"
-        selected-class="bg-success"
-        show-arrows
-      >
-        <VSlideGroupItem
-          v-for="(item,index) in slider"
-          :key="index"
-        >
-          <VCard
-            class="margin_class selectedClass"
-            color="grey-lighten-1"
 
-            height="173"
-            width="600"
-            @click="goToSliderView(item.link)"
-          >
-            <div>
-              <VImg
-                :src="item.image_url"
-                class="mb-10 selectedClass"
-              />
-            </div>
-          </VCard>
-        </VSlideGroupItem>
-      </VSlideGroup>
-    </VSheet>
     <br>
     <VRow style="margin: 0px!important;">
-      <h2 style="padding-left:12px;">Most Viewed Products</h2>
+      <h2 style="padding-left:12px;">Your Search Product </h2>
     </VRow>
 
     <VRow style="margin: 0px!important;">
@@ -57,10 +22,10 @@ import bannerImage from '@images/banner/banner1.png'
         sm="6"
       >
         <div class="container">
-        <ProductCard
-          :index="index"
-          :product="product"
-        />
+          <ProductCard
+            :index="index"
+            :product="product"
+          />
         </div>
       </VCol>
     </VRow>
@@ -127,82 +92,59 @@ export default {
     alert(this.cartCount)
   },
   created() {
+    this.DatasChange();
+
     // console.log(this.$route)
-    if (this.$route.query.id) {
-      alert('gggg');
+    if (this.$route.query.search) {
+
     }
     // console.log(this.$options);
     // $('#cartAlert').hide();
   },
 
   async mounted() {
-    this.loading = 1
-    this.userData1 = JSON.parse(localStorage.getItem("userData") || '[]')
-    await axios.post(this.site_url, {
-      action: 'getSlider',
-      lang_id: localStorage.lang_id,
-    })
-      .then(result => {
-        // console.log(result.data)
-        this.slider = result.data
-        this.loading = 0
-
-        console.log(JSON.parse(JSON.stringify(this.slider)))
-      })
-    await axios.post(this.site_url, {
-      action: 'mostViewedList',
-      lang_id: localStorage.lang_id,
-      userId: this.userData1.id,
-    })
-      .then(result => {
-        // console.log(result.data)
-        this.mostViewedList = result.data
-        this.loading = 0
-
-        // console.log(JSON.parse(JSON.stringify(this.ProductsList)))
-      })
-    await axios.post(this.site_url, {
-      action: 'ProductsList',
-      lang_id: localStorage.lang_id,
-      limit: this.limit,
-      userId: this.userData1.id,
-      ProId: this.ProductId,
-    })
-      .then(result => {
-        // (result.data)
-        this.ProductsList = result.data
-
-        // this.ProductId = result.data.map(x => x.id);
-        this.ProductId = result.data.map(x => x.id)
-        this.loading = 0
+    // await axios.post(this.site_url, {
+    //   action: 'ProductsList',
+    //   lang_id: localStorage.lang_id,
+    //   limit: this.limit,
+    //   userId: this.userData1.id,
+    //   ProId: this.ProductId,
+    // })
+    //   .then(result => {
+    //     // (result.data)
+    //     this.ProductsList = result.data
+    //
+    //     // this.ProductId = result.data.map(x => x.id);
+    //     this.ProductId = result.data.map(x => x.id)
+    //     this.loading = 0
 
         // console.log(JSON.stringify(this.ProductId));
         // console.log(JSON.parse(JSON.stringify(this.ProductsList)))
-      })
-    if (!localStorage.userData) {
-      this.mostViewedList.forEach((value, index) => {
-        this.favouriteList = JSON.parse(localStorage.getItem("favouriteList") || '[]')
-        let proId = this.favouriteList.filter(x => x.productId == value.id).map(x => x.productId)
-        if (proId[0] === value.id) {
-          // JSON.parse(JSON.stringify(this.ProductsList[index])).is_fav = 1
-          this.mostViewedList[index].is_fav = 1
-
-          // this.ProductsList[index].is_fav = 1
-        }
-      })
-      if (localStorage.favouriteList) {
-        this.ProductsList.forEach((value, index) => {
-          this.favouriteList = JSON.parse(localStorage.getItem("favouriteList") || '[]')
-          let proId = this.favouriteList.filter(x => x.productId == value.id).map(x => x.productId)
-          if (proId[0] === value.id) {
-            // JSON.parse(JSON.stringify(this.ProductsList[index])).is_fav = 1
-            this.ProductsList[index].is_fav = 1
-
-            // this.mostViewedList[index].is_fav = 1
-          }
-        })
-      }
-    }
+      // })
+    // if (!localStorage.userData) {
+    //   this.mostViewedList.forEach((value, index) => {
+    //     this.favouriteList = JSON.parse(localStorage.getItem("favouriteList") || '[]')
+    //     let proId = this.favouriteList.filter(x => x.productId == value.id).map(x => x.productId)
+    //     if (proId[0] === value.id) {
+    //       // JSON.parse(JSON.stringify(this.ProductsList[index])).is_fav = 1
+    //       this.mostViewedList[index].is_fav = 1
+    //
+    //       // this.ProductsList[index].is_fav = 1
+    //     }
+    //   })
+    //   if (localStorage.favouriteList) {
+    //     this.ProductsList.forEach((value, index) => {
+    //       this.favouriteList = JSON.parse(localStorage.getItem("favouriteList") || '[]')
+    //       let proId = this.favouriteList.filter(x => x.productId == value.id).map(x => x.productId)
+    //       if (proId[0] === value.id) {
+    //         // JSON.parse(JSON.stringify(this.ProductsList[index])).is_fav = 1
+    //         this.ProductsList[index].is_fav = 1
+    //
+    //         // this.mostViewedList[index].is_fav = 1
+    //       }
+    //     })
+    //   }
+    // }
 
     this.handleDebouncedScroll = debounce(this.handleScroll, 100)
     window.addEventListener('scroll', this.handleDebouncedScroll)
@@ -210,6 +152,19 @@ export default {
 
 
   methods: {
+    async DatasChange(){
+      const Data_Search = await this.callAxios(this.site_url, {
+        action: 'Search_product_data',
+        lang_id: localStorage.lang_id,
+        Search_data: this.$route.query.search,
+        userId: this.userData1.id,
+      }, 'post');
+      this.mostViewedList = Data_Search.data
+      this.loading = 0
+
+    },
+
+
     async handleScroll(event) {
       // Any code to be executed when the window is scrolled
 
@@ -269,6 +224,14 @@ export default {
       window.open(url, '_blank')
     },
   },
+  watch: {
+
+    '$route': function () {
+      this.DatasChange();
+      // console.log($route)
+    }
+
+    },
 
   // beforeDestroy() {
   //   // I switched the example from `destroyed` to `beforeDestroy`

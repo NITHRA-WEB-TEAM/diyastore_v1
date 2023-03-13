@@ -60,6 +60,8 @@ watch([
 const clearSearchAndCloseDialog = () => {
   emit('update:isDialogVisible', false)
   emit('update:searchQuery', '')
+  // this.searchQuery=[];
+  // this.Searchdata=[];
 }
 
 watchEffect(() => {
@@ -67,15 +69,15 @@ watchEffect(() => {
     searchResults.value = []
 })
 
-const getFocusOnSearchList = e => {
-  if (e.key === 'ArrowDown') {
-    e.preventDefault()
-    refSearchList.value?.focus('next')
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault()
-    refSearchList.value?.focus('prev')
-  }
-}
+// const getFocusOnSearchList = e => {
+  // if (e.key === 'ArrowDown') {
+  //   e.preventDefault()
+  //   refSearchList.value?.focus('next')
+  // } else if (e.key === 'ArrowUp') {
+  //   e.preventDefault()
+  //   refSearchList.value?.focus('prev')
+  // }
+// }
 
 const dialogModelValueUpdate = val => {
   emit('update:isDialogVisible', val)
@@ -108,6 +110,7 @@ const resolveCategories = val => {
     @update:model-value="dialogModelValueUpdate"
     @keyup.esc="clearSearchAndCloseDialog"
   >
+
     <VCard
       height="100%"
       width="100%"
@@ -118,7 +121,7 @@ const resolveCategories = val => {
         style="max-height: 65px;"
       >
         <!-- 👉 Search Input -->
-        <VTextField
+         <VTextField
           ref="refSearchInput"
           v-model="searchQuery"
           autofocus
@@ -126,8 +129,9 @@ const resolveCategories = val => {
           density="comfortable"
           class="app-bar-autocomplete-box"
           @keyup.esc="clearSearchAndCloseDialog"
-          @keydown="getFocusOnSearchList"
+          @keyup="getFocusOnSearchList"
           @update:model-value="$emit('update:searchQuery', searchQuery)"
+
         >
           <!-- 👉 Prepend Inner -->
           <template #prepend-inner>
@@ -176,60 +180,36 @@ const resolveCategories = val => {
       <VDivider />
 
       <!-- 👉 Perfect Scrollbar -->
+
+
       <PerfectScrollbar
         :options="{ wheelPropagation: false, suppressScrollX: true }"
         class="h-100"
       >
         <!-- 👉 Search List -->
         <VList
-          v-show="searchQuery.length && !!searchResults.length"
           ref="refSearchList"
           density="compact"
           class="app-bar-search-list"
         >
+
           <!-- 👉 list Item /List Sub header -->
           <template
-            v-for="item in searchResults"
-            :key="item.title"
-          >
-            <VListSubheader
-              v-if="'header' in item"
-              class="text-disabled"
-            >
-              {{ resolveCategories(item.title) }}
-            </VListSubheader>
-
-            <template v-else>
-              <slot
-                name="searchResult"
-                :item="item"
-              >
-                <VListItem
-                  link
-                  @click="$emit('itemSelected', item)"
-                >
-                  <template #prepend>
-                    <VIcon
-                      size="20"
-                      :icon="item.icon"
-                      class="me-3"
-                    />
-                  </template>
-
-                  <template #append>
+            v-for="item in Searchdata">
+                  <template>
                     <VIcon
                       size="20"
                       icon="tabler-corner-down-left"
                       class="enter-icon text-disabled"
                     />
                   </template>
-
                   <VListItemTitle>
-                    {{ item.title }}
+                    <RouterLink :to="{ name: 'diya-Search_product', query: { search: item }}" @click="clearSearchAndCloseDialog">&nbsp;
+                      &nbsp;&nbsp;
+                      &nbsp;
+                      {{ item }}  </RouterLink>
+
                   </VListItemTitle>
-                </VListItem>
-              </slot>
-            </template>
           </template>
         </VList>
 
@@ -281,7 +261,8 @@ const resolveCategories = val => {
 
         <!-- 👉 No Data found -->
         <div
-          v-show="!searchResults.length && searchQuery.length"
+
+          v-show="!Searchdata.length && searchQuery.length"
           class="h-100"
         >
           <slot name="noData">
@@ -321,6 +302,89 @@ const resolveCategories = val => {
     </VCard>
   </VDialog>
 </template>
+<script>
+import axios from "axios";
+
+const isSnackbarScrollReverseVisible = ref(false)
+
+import {createVuetify} from 'vuetify'
+import {aliases, mdi} from 'vuetify/iconsets/mdi'
+// const route = useRoute()
+export default {
+  setup() {
+    // alert('check')
+  },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: {
+      mdi,
+    }
+  },
+
+  inheritAttrs: false,
+  data() {
+    return {
+      getSingleData: [],
+      ProductsList: [],
+      relatedProduct: [],
+      Searchdata:[],
+      dataAvailable: 1,
+      imageSrc: '',
+      categoryId: '',
+      list:[],
+      number: 1,
+      userData1: [{"id": ''}],
+// id: $route.params.id
+    }
+  },
+  async created() {
+    // console.log(this.$route)
+    if (this.$route.query.id) {
+
+    }
+
+  },
+  methods: {
+
+    // clearSearchAndCloseDialog(){
+    //
+    //   this.Searchdata=[];
+    //   this.searchQuery='';
+    // },
+    async getFocusOnSearchList(){
+      // alert(this.searchQuery);
+      const Search_data=this.searchQuery;
+      // alert(Search_data);
+      if(Search_data.length>2){
+      const DataSearchPro = await this.callAxios(this.site_url, {'action':'SearchProduct','Search':Search_data,'lang_id': localStorage.lang_id}, 'post');
+      // this.Searchdata1 = DataSearchPro.data;
+      //   this.Searchdata= DataSearchPro.data.key_words.split(',');
+
+        // let proArray = DataSearchPro.data.split(",")
+        // console.log(Searchdata);
+        let detail=[];
+        for (let Searchdata1 of DataSearchPro.data) {
+          for(let newData of Searchdata1.key_words.split(',')){
+            this.Searchdata.push(newData);
+          }
+        }
+        // console.log(detail)
+      }else{
+        this.Searchdata=[];
+      }
+    },
+  },
+  watch: {
+    async $route(to, from) {
+      console.log(this.$route)
+      // this.segment = this.$route.params.segment
+      // this.onLoadTableData()
+    }
+  },
+
+}
+</script>
 
 <style lang="scss">
 .app-bar-search-suggestions {
