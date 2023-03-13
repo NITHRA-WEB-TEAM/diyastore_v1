@@ -258,6 +258,17 @@ export default {
     this.handleDebouncedScroll = debounce(this.handleScroll, 100);
     window.addEventListener('scroll', this.handleDebouncedScroll);
   },
+  watch: {
+    MobileNumber: function (val) {
+      if (val.length >= 10) {
+        this.MobilelengthCheck();
+      }
+    },
+    Selected: function (val) {
+      this.comon.address = '';
+    },
+
+  },
 
   // beforeDestroy() {
   //   // I switched the example from `destroyed` to `beforeDestroy`
