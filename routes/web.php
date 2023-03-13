@@ -20,5 +20,7 @@ Route::get('{any?}', function() {
 
 
 Route::group(['prefix' => '/payment'], function () {
-    Route::post('pay-check', [RazorpayController::class, 'Payment']);
+    Route::post('/pay-check', [RazorpayController::class, 'Payment']);
+    Route::post('/make-payment',[RazorpayController::class,'pay'])->name('make.payment');
+    Route::post('/status', [RazorpayController::class,'paymentCallback'])->name('status');
 });

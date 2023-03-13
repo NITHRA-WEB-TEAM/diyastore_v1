@@ -25,40 +25,45 @@ export default {
         //         return DataShipamnt;
         //     //     console.log( JSON.parse(JSON.stringify(ProId) || '[]'))
         // },
+        sweetAlertConfirm(icon, title, text) {
+            this.$swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+                confirmButtonText: 'Remove',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.$swal.fire(
+                        'Deleted!',
+                        'Successfully Removed From Your Cart',
+                        'success'
+                    )
+                }
+            })
+        },
         addToCart(productId) {
-
-            // this.cartCount = 5;
-            // console.log(isAlertVisible)
-            // alert(this.cartCount);
-            // return 3;
-
-            // console.log(isAlertVisible)
-            // alert('common')
-            //add to cart server
-
             if (localStorage.userData) {
-                alert('here')
                 // this.cartItem = JSON.stringify(JSON.parse(localStorage.getItem("cartItem") || '[]'))
                 this.userData = JSON.parse(localStorage.getItem("userData") || '[]')
                 this.cartItem.push({
                     productId: productId,
                     qty: 1
                 });
-                alert(useTodosStore().$state.cartCount)
                 useTodosStore().$state.cartCount +=1;
-                // console.log(JSON.stringify(this.cartItem))
-                // axios.post(this.site_url, {
-                //     action: 'addToCart',
-                //     userId: this.userData.id,
-                //     proArray: (JSON.stringify(this.cartItem)),
-                //     mobile: this.userData.mobileno,
-                //     fromApp: 'diyaStoreSite',
-                // })
-                //     .then(result => {
-                //         // console.log(typeof result.data)
-                //         console.log(result.data)
-                //     });
-
+                console.log(JSON.stringify(this.cartItem))
+                axios.post(this.site_url, {
+                    action: 'addToCart',
+                    userId: this.userData.id,
+                    proArray: (JSON.stringify(this.cartItem)),
+                    mobile: this.userData.mobileno,
+                    fromApp: 'diyaStoreSite',
+                })
+                    .then(result => {
+                    });
                 this.cartItem = []
 
             } else {

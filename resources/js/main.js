@@ -14,19 +14,26 @@ import '@core-scss/template/index.scss'
 import '@styles/styles.scss'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
+import axios from "axios"
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 loadFonts()
-// const Razorpay = require('razorpay');
 // Create vue app
 const app = createApp(App)
-
+const btnoptions = {
+  confirmButtonColor: '#41b882',
+  cancelButtonColor: '#ff7674',
+};
 
 // Use plugins
 
 app.mixin(commonJs)
+app.use(VueSweetalert2,btnoptions)
 app.use(vuetify)
 app.use(createPinia())
 app.use(router)
-app.use(layoutsPlugin)
+app.use(layoutsPlugin);
 app.use(i18n)
 
 app.use(abilitiesPlugin, ability, {

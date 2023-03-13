@@ -6,37 +6,21 @@ import {
   requiredValidator, integerValidator,
   lengthValidator
 } from '@validators'
-// const stateList = [
-// 'Alabama',
-// 'Alaska',
-// 'Arizona',
-// 'Arkansas',
-// 'California',
-// 'Colorado',
-// 'Connecticut',
-// 'Delaware',
-// 'Florida',
-// 'Georgia',
-// 'Hawaii',
-// ]
 
 // const deliveryOption = ref('post')
 // const paymentType = ref('online')
 // const addressOption = ref(0)
 const panel = ref(0)
 const radioGroup = ref(0)
-
-
 const isAddAddressSidebarVisible = ref(false)
-
 </script>
-
 <template>
+  <div>
   <VRow>
 
 
     <VCol cols="12" md="8">
-      <h4 class="text-h6 font-weight-medium mb-5">
+      <h4 class="text-h6 font-weight-medium mt-2 mb-5 text-center">
         Address Section
       </h4>
 
@@ -187,15 +171,31 @@ const isAddAddressSidebarVisible = ref(false)
               <VDivider class="my-5"/>
 
               <!-- 👉 Place Order -->
-              <div class="d-flex gap-4">
-                <VBtn type="submit">Place Order</VBtn>
+
+              <VRow class="mt-2 mb-2">
                 <VBtn
-                  color="secondary"
-                  variant="tonal"
+                  class="text-xs-center mx-auto"
+                  type="button"
                 >
-                  Cancel
+                  <VIcon
+                    class="me-2"
+                    icon="tabler-message"
+                    size="22"
+                  />
+
+                  Place Order
                 </VBtn>
-              </div>
+              </VRow>
+
+<!--              <div class="mx-auto">-->
+<!--                <VBtn type="submit">Place Order</VBtn>-->
+<!--                <VBtn-->
+<!--                  color="secondary"-->
+<!--                  variant="tonal"-->
+<!--                >-->
+<!--                  Cancel-->
+<!--                </VBtn>-->
+<!--              </div>-->
             </VExpansionPanelText>
           </VExpansionPanel>
           <!-- !SECTION Delivery Options -->
@@ -213,19 +213,14 @@ const isAddAddressSidebarVisible = ref(false)
     </VCol>
   </VRow>
     <InvoiceAddAddressDrawer v-model:isDrawerOpen="isAddAddressSidebarVisible"/>
-
+  </div>
 </template>
 
 <style lang="scss">
 </style>
 <script>
 import axios from "axios";
-
-// const route = useRoute()
 export default {
-  // setup(){
-  //   alert('paymentType')
-  // },
   inheritAttrs: false,
   data() {
     return {
@@ -253,7 +248,7 @@ export default {
     })
       .then(result => {
         this.userAddress = result.data
-        console.log(JSON.parse(JSON.stringify(this.userAddress)))
+        // console.log(JSON.parse(JSON.stringify(this.userAddress)))
         // console.log('here 12')
         // alert(this.categoryId)
       });
@@ -262,7 +257,7 @@ export default {
     })
       .then(result => {
         this.PosatalMaster = result.data
-        console.log(JSON.parse(JSON.stringify(this.PosatalMaster)))
+        // console.log(JSON.parse(JSON.stringify(this.PosatalMaster)))
       });
 
     if (localStorage.userData) {

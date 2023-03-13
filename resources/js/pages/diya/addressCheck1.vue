@@ -1,18 +1,4 @@
 <script setup>
-// const stateList = [
-// 'Alabama',
-// 'Alaska',
-// 'Arizona',
-// 'Arkansas',
-// 'California',
-// 'Colorado',
-// 'Connecticut',
-// 'Delaware',
-// 'Florida',
-// 'Georgia',
-// 'Hawaii',
-// ]
-
 const deliveryOption = ref('post')
 const paymentType = ref('online')
 const addressOption = ref(0)
@@ -29,7 +15,8 @@ const isAddAddressSidebarVisible = ref(false)
 </script>
 
 <template>
-  <VRow class="">
+  <div>
+  <VRow>
 
 
     <VCol cols="12" md="8">
@@ -225,7 +212,7 @@ const isAddAddressSidebarVisible = ref(false)
     </VCol>
   </VRow>
   <InvoiceAddAddressDrawer v-model:isDrawerOpen="isAddAddressSidebarVisible"/>
-
+  </div>
 </template>
 
 <style lang="scss">

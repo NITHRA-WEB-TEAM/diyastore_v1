@@ -20,7 +20,7 @@ export const useEmailStore = defineStore('email', {
       this.emailsMeta = emailsMeta
       console.log(response.data)
 
-      const result = await axios.post('http://192.168.58.42:3000/api/site/action', {
+      const result = await axios.post(this.site_url, {
         action: 'ProductsList',
         lang_id: localStorage.lang_id
       })

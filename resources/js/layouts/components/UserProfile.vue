@@ -131,7 +131,6 @@ const login = () => {
     class="me-2"
     role="button"
     @click="login">
-    {{$router.currentRoute.name}}
     <VIcon
       size="17"
       icon="tabler-user"
