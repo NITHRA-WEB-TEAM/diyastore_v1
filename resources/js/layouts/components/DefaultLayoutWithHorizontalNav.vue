@@ -18,6 +18,130 @@ const { appRouteTransition } = useThemeConfig()
 </script>
 
 <template>
+  <div class="layout-horizontal-nav" style="background-color: orange">
+    <div class="horizontal-nav-content-container">
+  <VRow
+    no-gutters
+    class="auth-wrapper">
+    <VCol
+      md="3"
+      class="d-none auth-bg d-lg-flex">
+    </VCol>
+    <VCol
+      md="6"
+      class="d-none auth-bg  d-lg-flex"
+    >
+      <v-carousel
+        height="50"
+        hide-delimiters
+
+      >
+        <v-carousel-item
+        >
+          <v-sheet
+            height="100%"
+            class="bg-light-secondary"
+          >
+            <div class="d-flex fill-height justify-center align-center">
+              <h5 style="color: white;">
+                For Telangana &amp; Andhra Pradesh : <a style="color: darkslateblue" href="tel:9360299668">93602 99668</a>
+              </h5>
+            </div>
+          </v-sheet>
+        </v-carousel-item>
+        <v-carousel-item
+        >
+          <v-sheet
+            height="100%"
+            class="bg-light-secondary"
+          >
+            <div class="d-flex fill-height justify-center align-center">
+              <h5 style="color: white">
+                For Tamil Nadu : <a style="color: darkslateblue" href="tel:9597215816"> 95972 15816</a>
+              </h5>
+            </div>
+          </v-sheet>
+        </v-carousel-item>
+
+        <v-carousel-item
+        >
+          <v-sheet
+            height="100%"
+            class="bg-light-secondary">
+            <div class="d-flex fill-height justify-center align-center">
+              <h5 style="color: white">
+                For Hindi : <a style="color: darkslateblue" href="tel:7568224311">75682 24311</a>
+              </h5>
+            </div>
+          </v-sheet>
+        </v-carousel-item>
+        <v-carousel-item
+        >
+          <v-sheet
+            height="100%"
+            class="bg-light-secondary">
+            <div class="d-flex fill-height justify-center align-center">
+              <h5 style="color: white">
+                For Karnataka : <a style="color: darkslateblue" href="tel: 8056601121">80566 01121</a>
+              </h5>
+            </div>
+          </v-sheet>
+        </v-carousel-item>
+      </v-carousel>
+    </VCol>
+
+    <VCol
+      md="3"
+      class="d-none auth-bg  d-lg-flex"
+    >
+    </VCol>
+  </VRow>
+      </div></div>
+
+<!--  <div class="layout-horizontal-nav">-->
+<!--    <div class="horizontal-nav-content-container">-->
+<!--      <v-sheet-->
+<!--        class="mx-auto"-->
+<!--        max-width="400"-->
+<!--        max-height="400"-->
+<!--      >-->
+<!--        <v-slide-group-->
+<!--          show-arrows-->
+<!--        >-->
+<!--          <v-slide-group-item-->
+<!--            v-slot="{ isSelected, toggle }"-->
+<!--          >-->
+<!--            <h5 class="ma-2"-->
+<!--             style="padding-top: 10px;">-->
+<!--              For Hindi: 75682 24311-->
+<!--            </h5>-->
+<!--            <h5 class="ma-2"-->
+<!--                style="padding-top: 10px;">-->
+<!--              For Telangana &amp; Andhra Pradesh : 93602 99668-->
+
+<!--            </h5>-->
+<!--            <h5 class="ma-2"-->
+<!--                style="padding-top: 10px;">-->
+<!--              For Tamil Nadu : 95972 15816-->
+
+<!--            </h5>-->
+<!--            <h5 class="ma-2"-->
+<!--                style="padding-top: 10px;">-->
+<!--              For Karnataka : 80566 01121-->
+
+<!--            </h5>-->
+<!--            <h5 class="ma-2"-->
+<!--                style="padding-top: 10px;">-->
+<!--              For Telangana &amp; Andhra Pradesh :93602 99668-->
+<!--            </h5>-->
+<!--          </v-slide-group-item>-->
+
+<!--        </v-slide-group>-->
+
+<!--      </v-sheet>-->
+<!--    </div>-->
+<!--  </div>-->
+
   <HorizontalNavLayout
     :nav-items="navItems"
   >
