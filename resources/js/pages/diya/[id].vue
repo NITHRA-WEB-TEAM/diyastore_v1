@@ -241,7 +241,6 @@ const isDialogVisible2 = ref(false)
                       <VImg :src="avatar1"/>
                     </VAvatar>
                    Pay on Delivery</span>
-
                   </template>
                   <!-- Dialog close btn -->
                   <DialogCloseBtn @click="isDialogVisible = !isDialogVisible"/>
@@ -380,7 +379,7 @@ const isDialogVisible2 = ref(false)
                   rounded
                   class="me-2 v-btn--elevated"
                   role="button"
-                  @click="isSnackbarScrollReverseVisible = true;addToCart(getSingleData.id)"
+                  @click.once="getSingleData.is_cart == 1 ? GoToCart(getSingleData.id) :(addToCart(getSingleData.id),isSnackbarScrollReverseVisible=true)"
                 >
                   <VIcon
                     size="30"

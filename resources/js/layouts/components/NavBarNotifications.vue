@@ -72,6 +72,7 @@ export default {
       })
         .then(result => {
           this.cartCount = result.data
+          console.log(result.data)
           useTodosStore().$state.cartCount=result.data;
         });
     } else {

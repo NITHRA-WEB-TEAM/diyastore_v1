@@ -19,7 +19,7 @@ import ProductCard from '@/views/diya/diya/card.vue'
       </div>
       <div class="loading" v-else>
       </div>
-      <VRow>
+      <VRow class="mt-2">
         <VCol v-for="(product,index) in ProductsList" :key="index"
               cols="12"
               md="4"
@@ -67,7 +67,9 @@ export default {
         userId: this.userData.id
       })
         .then(result => {
+          this.loading = 0;
           this.ProductsList = result.data
+
           console.log(JSON.parse(JSON.stringify(this.ProductsList)))
           // console.log('here 12')
           // alert(this.categoryId)
@@ -82,6 +84,7 @@ export default {
           lang_id: localStorage.lang_id,
         })
           .then(result => {
+            this.loading = 0;
             this.ProductsList = result.data
             console.log(JSON.parse(JSON.stringify(this.ProductsList)))
             this.ProductsList.forEach((value, index) => {

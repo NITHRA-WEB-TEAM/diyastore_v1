@@ -6,8 +6,7 @@ use Razorpay\Api\Api;
 use Illuminate\Http\Request;
 use Anand\LaravelPaytmWallet\Facades\PaytmWallet;
 use App\Paytm;
-
-
+use Illuminate\Support\Facades\DB;
 class RazorpayController extends Controller
 {
 
@@ -18,30 +17,64 @@ class RazorpayController extends Controller
 
     public function Payment(Request $request)
     {
-//        return $request;
+        $inv_prefix = $year .= "/DIYA/";
+        $sql =  DB::table('pay_details')->select('inv_prefix', DB::raw("Max(inv_no) as inv_no"))
+            ->where('inv_prefix', '=', $inv_prefix)
+            ->first();
+
+        $unique_number = 'POOJA_STORE-' . uniqid(0, FALSE);
+        $paytype =$request->'paytype';
+        $addressDetails= DB::table('address')->where('id',$request->'addressID')->select('name','address','pincode','state')->first();
+        $postalID =$request->'postalID';
+        $paymode =$request->'payment_id';
+        $ProID =$request->'ProID';
+        $inv_no = $sql->inv_no ?? 0;
+        $insert_array = array(
+            'mobile' => $request->mobile,
+            'inv_prefix' => $inv_prefix,
+            'inv_no' => $inv_no,
+            'order_id' => $unique_number,
+            'TXN_AMOUNT' => $amount,
+            'shiping_amnt' => $ship_amnt,
+            'TXN_STATUS' => 'TXN_SUCCESS',
+            'TXN_DATE' => now(),
+            'amount' => $amount,
+            'user_id' => $regid,
+            'transaction_num' => $transaction_num,
+            'actual_amount' => $amount,
+            'cdate' => now(),
+            'cip' => $request->ip()
+        );
+        $lastID = DB::table('pay_details')->create($insert_array);
+
+          $order_array = array(
+              'user_id' => $request->userId,
+              'pay_id' => $LastId->id,
+              'login_mobile' => $request->login_mobile,
+              'mobile' => $request->mobile,
+              'pro_id' => $values,
+              'payment_type' => $paymode,
+              'name' => $addressDetails->name,
+              'state' =>$addressDetails->state,
+              'address' => $request->'addressID',
+              'pincode' => $addressDetails->pincode,
+              'email' => $addressDetails->email,
+              'qty' => $qtys[$KeysId],
+              'from_app' => $from_app,
+              'cdate' => now(),
+              'cip' => $request->ip(),
+          );
 
 
         $api = new Api(env('RZ_KEY_ID'), env('RZ_SECRET'));
 //        $api = new Api('rzp_test_CvrmThFEnZgW1U', 'k2RzzwS6Q8tAb0nXs3SNoTym');
         $paymentDetail = $api->payment->fetch($request->payment_id)->toArray();
-//        $status = Arr::get($paymentDetail, 'status');
-        return $paymentDetail;
+        $status = Arr::get($paymentDetail, 'status');
+        return $status;
     }
 
     public function pay(Request $request)
     {
-        ob_start();
-        $msg = "Your order from Nithra Pooja Store has been dispatched. You will receive your product with in 5 days. Track Your Product " . $track_id . ', ' . $track_url;
-        $ch = curl_init();
-        $msg = urlencode($msg);
-        $url = "http://api.msg91.com/api/sendhttp.php?sender=NITHRA&route=4&mobiles=" . $no . "&authkey=221068AW6ROwfK5b2782c0&country=91&campaign=pooja_store&message=" . $msg . "&DLT_TE_ID=1307160938968347916";
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        ob_end_clean();
-
         $amount = 1; //Amount to be paid
         $userData = [
             'name' => 'Mani', // Name of user

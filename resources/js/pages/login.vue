@@ -119,8 +119,6 @@ const {appRouteTransition} = useThemeConfig()
                   :error-messages="errors.mobile"
                   class="mb-4"
                 />
-
-
               </VCol>
             </VRow>
             <VRow>
