@@ -363,13 +363,10 @@ export default {
 .v-window__left {
   background: rgba(var(--v-theme-surface-variant), 0.3) !important;
 }
-
 .v-window__right {
   background: rgba(var(--v-theme-surface-variant), 0.3) !important;
 }
 @media only screen and (max-width: 600px) {
-
-
 }
 
 
@@ -386,6 +383,7 @@ export default {
   .v-carousel__controls {
     padding-bottom: 215px;
   }
+
   .set_height {
     height: 150px;
   }

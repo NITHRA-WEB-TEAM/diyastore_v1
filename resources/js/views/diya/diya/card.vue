@@ -27,7 +27,9 @@ const chartOptions = {
     colors: 'transparent',
     strokeColors: 'transparent',
   },
-  grid: {show: false},
+  grid: {
+    show: false
+  },
   colors: [currentTheme.success],
   fill: {
     type: 'gradient',
@@ -75,7 +77,6 @@ const chartOptions = {
           lg="10"
         >
           <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">
-
             <h6 class="" style="font-size: 16px">
               {{ product.titles.substring(0, 25) + "..." }}
             </h6>
@@ -127,8 +128,23 @@ const chartOptions = {
     <!--    />-->
     <!--    </RouterLink>-->
     <VCardText class="pt-0">
+<!--{{product.images}}-->
       <RouterLink :to="{ name: 'diya-id', params: { id: product.id } }" target="_blank">
-        <img :src="product.images[0].src" style="width: -webkit-fill-available;max-height: 200px;min-height: 230px;">
+
+      <v-carousel cycle interval="2000" :show-arrows="false" height="300">
+
+          <v-carousel-item
+            v-for="(image,index) in product.images"
+            :src="image.src"
+            cover
+          >
+
+          </v-carousel-item>
+        </v-carousel>
+
+      <!--      <img :src="product.images[0].src" style="width: -webkit-fill-available;max-height: 200px;min-height: 230px;">-->
+
+<!--        <img :src="product.images[0].src" style="width: -webkit-fill-available;max-height: 200px;min-height: 230px;">-->
         <div class="d-flex align-center pl-7  mt-3">
           <h6 class="text-h6 text-center pl-2 font-weight-semibold">
             ₹{{ discountedPrice(product) }}
@@ -139,7 +155,6 @@ const chartOptions = {
           <span class="text-center font-weight-semibold text-success pl-2">
            ₹{{ Math.ceil(product.discount_amt) }}
         </span>
-
         </div>
 
         <p class="text-sm text-center text-primary">
@@ -177,7 +192,6 @@ const chartOptions = {
           />
           Buy Now
         </VAvatar>
-
         <!--        <span>Add to cart</span>-->
       </div>
     </VCardText>
@@ -211,6 +225,20 @@ export default {
   data() {
     return {
       cartItem: [],
+      items: [
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+        },
+        {
+          src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+        },
+      ],
       // id: $route.params.id
     }
   },
