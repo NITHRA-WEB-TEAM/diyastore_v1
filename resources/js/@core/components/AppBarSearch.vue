@@ -60,7 +60,10 @@ watch([
 const clearSearchAndCloseDialog = () => {
   emit('update:isDialogVisible', false)
   emit('update:searchQuery', '')
+  emit('update:Searchdata', [])
   // this.searchQuery=[];
+
+
   // this.Searchdata=[];
 }
 
@@ -357,6 +360,7 @@ export default {
       const Search_data=this.searchQuery;
       // alert(Search_data);
       if(Search_data.length>2){
+        this.Searchdata=[];
       const DataSearchPro = await this.callAxios(this.site_url, {'action':'SearchProduct','Search':Search_data,'lang_id': localStorage.lang_id}, 'post');
       // this.Searchdata1 = DataSearchPro.data;
       //   this.Searchdata= DataSearchPro.data.key_words.split(',');
@@ -366,7 +370,7 @@ export default {
         let detail=[];
         for (let Searchdata1 of DataSearchPro.data) {
           for(let newData of Searchdata1.key_words.split(',')){
-            this.Searchdata.push(newData);
+            this.Searchdata.push(newData.replace(/[^a-zA-Z0-9 ]/g, ''));
           }
         }
         // console.log(detail)

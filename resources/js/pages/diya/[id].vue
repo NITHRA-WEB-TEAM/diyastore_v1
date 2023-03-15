@@ -2,11 +2,12 @@
 import avatar1 from '@images/avatars/pay_on_deliver.png'
 import avatar2 from '@images/avatars/refund_policy.png'
 import avatar3 from '@images/avatars/speed_delivery.png'
-
+import youtube_image from '@images/youtube_logo.png'
 
 // import {useTheme} from 'vuetify'
 import ImageView
   from '@/views/diya/diya/imageView.vue'
+
 // import ProductDetail from '@/views/diya/diya/productDetail.vue'
 import ProductCard from '@/views/diya/diya/card.vue'
 
@@ -25,10 +26,19 @@ const isDialogVisible2 = ref(false)
         cols="12"
         md="5"
       >
+        <br>
         <!--      <image-view :imageData="getSingleData"/>-->
         <VCard>
+
           <!--        <img class="zoom" src="https://d1zqapbqie7n0v.cloudfront.net/960748_1644050935.webp" style="width: -webkit-fill-available;" alt="">-->
-          <img class="zoom" :src="imageSrc" style="width: -webkit-fill-available;" alt="">
+<!--          <img class="zoom" :src="imageSrc" style="width: -webkit-fill-available;" alt="">-->
+
+          <iframe v-if="imageSrc1" width="320" height="320" :src="imageSrc1" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen class="zoom_data"></iframe>
+          <img  v-else class="zoom" :src="imageSrc" style="width: -webkit-fill-available;" alt="">
+
+
           <!--        Add to Cart Button-->
           <!--        <div class="d-flex align-center ml-4">-->
           <!--          <VAvatar-->
@@ -59,8 +69,62 @@ const isDialogVisible2 = ref(false)
           <!--        </div>-->
           <!--                <br>-->
           <VCard>
-            <img class="nozoom" type="button" :src="image.src" alt=""
-                 v-for="(image,index) in getSingleData.images" @click="mainImage(image.src)">
+
+            <v-sheet
+              class="mx-auto"
+              elevation="8"
+              max-width="800"
+            >
+              <v-slide-group
+                v-model="model"
+                class="pa-4"
+                selected-class="bg-success"
+                show-arrows
+              >
+                <v-slide-group-item
+                  v-for="(image,index) in getSingleData.images"
+                  :key="n"
+                  v-slot="{ isSelected, toggle, selectedClass }"
+                >
+
+                  <v-card
+                    color="grey-lighten-1"
+                    :class="['ma-4', selectedClass]"
+                    height="200"
+                    @click="toggle"
+                    style="background-color:lightgrey"
+                  >
+
+                    <img class="nozoom" type="button" :src="image.src" alt=""
+                                @click="mainImage(image.src)">
+
+
+                    <div class="d-flex fill-height align-center justify-center">
+                                          <v-scale-transition>
+                                            <v-icon
+                                              v-if="isSelected"
+                                              color="white"
+                                              size="48"
+                                              icon="mdi-close-circle-outline"
+                                            ></v-icon>
+                                          </v-scale-transition>
+                                        </div>
+                                      </v-card>
+                                    </v-slide-group-item>
+                <v-card  color="grey-lighten-1"
+                         :class="['ma-4', selectedClass]"
+                         height="200"
+                         @click="toggle"
+                         style="background-color:lightgrey">
+                <img  v-if="getSingleData.video_url!=''"  :src="youtube_image" class="nozoom" type="button" @click="mainImage1(getSingleData.video_url)">
+                </v-card>
+              </v-slide-group>
+                                </v-sheet>
+
+
+                    <!--            <img class="nozoom" type="button" :src="image.src" alt=""-->
+<!--                 v-for="(image,index) in getSingleData.images" @click="mainImage(image.src)">-->
+<!--            <img  :src="youtube_image" class="nozoom" type="button" @click="mainImage1('TYL7lPC-XJ8')">-->
           </VCard>
         </VCard>
         <!--        Add to Cart Button-->
@@ -100,6 +164,7 @@ const isDialogVisible2 = ref(false)
         cols="12"
         md="7"
       >
+        <br>
         <VCard>
           <!--/*    <img src="../../../../images/svg/gift.svg" style="width: -webkit-fill-available;" alt="">*/-->
           <!-- SECTION Header -->
@@ -138,16 +203,18 @@ const isDialogVisible2 = ref(false)
                 <VIcon
                   icon="tabler-align-left"
                   size="22"/>
-                <span class="list-group-item text-amber-accent-1 ml-2">Availability : In Stock</span>
-                <br>
+                <span class="list-group-item text-amber-accent-1 ml-2" v-if="getSingleData.stock > 10">Availability : In Stock</span>
+                <span class="list-group-item text-amber-accent-1 ml-2"  v-else>Availability :  Only {{ getSingleData.stock }} left</span>
+
+                <br v-if="getSingleData.is_cod==1">
+                <VIcon
+                  icon="tabler-align-left"
+                  size="22" v-if="getSingleData.is_cod==1"/>
+                <span class="list-group-item ml-2" v-if="getSingleData.is_cod==1">Cash on Delivery Available (+ ₹{{list.cod ? list.cod:'50'}} Shipping Charges Extra)</span><br>
                 <VIcon
                   icon="tabler-align-left"
                   size="22"/>
-                <span class="list-group-item ml-2">Cash on Delivery Available (+ ₹50 Shipping Charges Extra)</span><br>
-                <VIcon
-                  icon="tabler-align-left"
-                  size="22"/>
-                <span class="list-group-item ml-2">Delivery : Mar 6 - 8 </span><br>
+                <span class="list-group-item ml-2">Delivery : {{currMonth}} {{ new Date().getDate()+ 5 }} - {{ new Date().getDate()+ 7 }} </span><br>
                 <VIcon
                   icon="tabler-align-left"
                   size="22"/>
@@ -237,7 +304,7 @@ const isDialogVisible2 = ref(false)
 
 </span>
 
-{{list}}
+
                   </template>
                   <!-- Dialog close btn -->
                   <DialogCloseBtn @click="isDialogVisible2 = !isDialogVisible2"/>
@@ -297,7 +364,7 @@ const isDialogVisible2 = ref(false)
                           {{ number }}</p>
                         <p>Total Amount :
                           {{ Math.ceil(getSingleData.price - getSingleData.discount_amt) * Math.ceil(number) }}</p>
-                        <span>For Cash on Delivery : ₹ 70 /- Extra</span> &nbsp;&nbsp;
+                        <span>For Cash on Delivery : {{list.cod ? list.cod:'50'}} /- Extra</span> &nbsp;&nbsp;
                       </div>
 
                     </div>
@@ -305,7 +372,7 @@ const isDialogVisible2 = ref(false)
                 </div>
               </div>
 
-              <div class="d-flex  align-center" min-height="220">
+              <div class="d-flex  align-center" min-height="220" style="position: sticky">
                 <VAvatar
                   color="#FF6801"
                   style="width: 160px;height: 45px;color: white"
@@ -339,28 +406,7 @@ const isDialogVisible2 = ref(false)
 
             <!-- 👉 Right Content -->
 
-            <div class="mt-4 ma-sm-4">
-              <!-- 👉 Invoice ID -->
-              <h6 v-if="getSingleData.stock > 10" class="font-weight-medium text-xl mb-6 text-success">
-                In Stock
-              </h6>
-              <h6 v-else class="font-weight-medium text-xl mb-6 text-error">
-                Only {{ getSingleData.stock }} left
-              </h6>
 
-
-              <!-- 👉 Issue Date -->
-              <!--        <p class="mb-2">-->
-              <!--          <span>Date Issued: </span>-->
-              <!--          <span class="font-weight-semibold">Date</span>-->
-              <!--        </p>-->
-
-              <!-- 👉 Due Date -->
-              <!--        <p class="mb-2">-->
-              <!--          <span>Due Date: </span>-->
-              <!--          <span class="font-weight-semibold">Due date</span>-->
-              <!--        </p>-->
-            </div>
           </VCardText>
           <!-- !SECTION -->
 
@@ -470,7 +516,9 @@ export default {
       relatedProduct: [],
       dataAvailable: 1,
       imageSrc: '',
+      imageSrc1: '',
       categoryId: '',
+      model: null,
       list:[],
       number: 1,
       userData1: [{"id": ''}],
@@ -522,7 +570,13 @@ export default {
   methods: {
     mainImage(url) {
       // alert(url)
+      this.imageSrc1='';
       this.imageSrc = url
+    },
+    mainImage1(url) {
+      // alert(url)
+      this.imageSrc1 = "https://www.youtube.com/embed/"+ url
+
     },
     increment() {
       this.number++;
@@ -577,12 +631,19 @@ icon-shape {
 .icon-sm {
   width: 2rem;
   height: 2rem;
-
 }
 
 @media screen and (max-width: 992px) {
   .nozoom {
     width: 160px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .nozoom {
+    width: 160px;
+  }
+  .zoom_data {
+    width: 327px;
   }
 }
 
@@ -594,6 +655,9 @@ icon-shape {
 @media screen and (min-width: 600px) {
   .nozoom {
     width: 230px;
+  }
+  .zoom_data {
+    width: 615px;
   }
 }
 </style>
